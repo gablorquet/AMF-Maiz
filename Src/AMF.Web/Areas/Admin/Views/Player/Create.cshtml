@@ -1,0 +1,15 @@
+﻿@model PlayerViewModel
+@using AMF.Web.Areas.Admin.ViewModels
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm("Create", "Player", FormMethod.Post))
+{
+    Html.RenderPartial("_Player", Model);
+
+    <input type="submit" value="Créer" class="btn btn-primary"/>
+}

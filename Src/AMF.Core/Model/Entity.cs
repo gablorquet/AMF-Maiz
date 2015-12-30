@@ -10,7 +10,7 @@ namespace AMF.Core.Model
 
         public DateTime CreationDate { get; set; }
 
-        public bool Archived { get; set; }
+        public DateTime? Archived { get; set; }
 
         protected Entity()
         {

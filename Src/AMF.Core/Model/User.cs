@@ -1,7 +1,36 @@
-﻿namespace AMF.Core.Model
+﻿using System;
+using System.Collections.Generic;
+
+namespace AMF.Core.Model
 {
     public class User : Entity
     {
-        public string Name { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+
+        
+        public string Username { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
+    }
+
+    public class Animateur : User
+    {
+        
+    }
+
+    public class Player : User
+    {
+        public DateTime? DateOfBirth { get; set; }
+        public List<Character> Characters { get; set; }
+
+
+        public void UpdateFrom(Player data)
+        {
+            FirstName = data.FirstName;
+            LastName = data.LastName;
+            Username = data.Username;
+            Email = data.Email;
+        }
     }
 }

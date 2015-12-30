@@ -13,7 +13,7 @@ namespace AMF.Core.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201511071835409_Init"; }
+            get { return "201512300635189_Init"; }
         }
         
         string IMigrationMetadata.Source

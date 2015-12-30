@@ -1,0 +1,14 @@
+﻿@model AMF.Web.Areas.Admin.ViewModels.PlayerViewModel
+@{
+    ViewBag.Title = "Update";
+}
+
+<h2>Update</h2>
+
+@using (Html.BeginForm("Update", "Player", FormMethod.Post))
+{
+    Html.RenderPartial("_Player", Model);
+
+    <input type="submit" value="Mettre à jour" class="btn btn-primary" />
+
+}

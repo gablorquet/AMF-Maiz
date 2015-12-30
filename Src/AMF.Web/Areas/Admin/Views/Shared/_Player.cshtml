@@ -1,0 +1,54 @@
+﻿@using AMF.Web.Areas.Admin.ViewModels
+@model PlayerViewModel
+
+
+<div class="row">
+    @Html.ValidationSummary()
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        @Html.LabelFor(x => x.Username, "Nom d'usager")
+    </div>
+    <div class="col-md-4">
+        @Html.EditorFor(x => x.Username)
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        @Html.LabelFor(x => x.FirstName, "Prénom")
+    </div>
+    <div class="col-md-4">
+        @Html.EditorFor(x => x.FirstName)
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        @Html.LabelFor(x => x.LastName, "Nom de famille")
+    </div>
+    <div class="col-md-4">
+        @Html.EditorFor(x => x.LastName)
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        @Html.LabelFor(x => x.Email, "Courriel")
+    </div>
+    <div class="col-md-4">
+        @Html.EditorFor(x => x.Email)
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        @Html.LabelFor(x => x.DateOfBirth, "Date de Naissance")
+    </div>
+    <div class="col-md-4">
+        @Html.EditorFor(x => x.DateOfBirth)
+    </div>
+</div>
+
+

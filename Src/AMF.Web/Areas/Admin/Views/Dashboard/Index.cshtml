@@ -1,0 +1,13 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+@Html.ActionLink("Inscrire un nouveau joueur", "Create", "Player")
+@Html.ActionLink("Mettre à jour un joueur", "Index", "Player")
+
+
+<a href="@Url.Action("Index", "Character")">Créer un nouveau personnage</a>
+<a href="@Url.Action("Index", "Character")">Mettre à jour un personnage</a>
+

@@ -1,4 +1,5 @@
 ﻿using System.Data.Entity;
+using AMF.Core.Authentication;
 using AMF.Core.Migrations;
 using AMF.Core.Storage;
 using Ninject.Modules;
@@ -17,6 +18,9 @@ namespace AMF.Core
 
             Kernel.Bind<ISession>()
                 .To<EntitySession>();
+
+            Kernel.Bind<IAuthenticationService>()
+                .To<FormsAuthenticationService>();
 
         }
     }
