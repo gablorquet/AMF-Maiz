@@ -76,6 +76,29 @@ namespace AMF.Core.Storage
         {
             _context.Dispose();
         }
+
+
+
+        
+        public void PURGEDATABASE()
+        {
+            List<string> tableNames = _context.Database.SqlQuery<string>("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_NAME NOT LIKE '%Migration%'").ToList();
+
+            for (int i = 0; tableNames.Count > 0; i++)
+            {
+                try
+                {
+                    _context.Database.ExecuteSqlCommand(string.Format("DELETE FROM {0}", tableNames.ElementAt(i % tableNames.Count)));
+                    tableNames.RemoveAt(i % tableNames.Count);
+                    i = 0;
+                }
+                catch { } // ignore errors as these are expected due to linked foreign key data             
+            }
+
+
+            _context.SaveChanges();
+
+        }
     }
 
 }

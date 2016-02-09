@@ -30,6 +30,25 @@ namespace AMF.Core.Storage
                m.MapLeftKey("parent_id");
                m.MapRightKey("child_id");
                m.ToTable("skill_prerequisites");
+           });           
+            
+            modelBuilder.Entity<Year>()
+           .HasMany(p => p.PlayableCategories)
+           .WithMany()
+           .Map(m =>
+           {
+               m.MapLeftKey("year_id");
+               m.MapRightKey("category_id");
+               m.ToTable("year_category");
+           });
+            modelBuilder.Entity<Year>()
+           .HasMany(p => p.PlayableRaces)
+           .WithMany()
+           .Map(m =>
+           {
+               m.MapLeftKey("year_id");
+               m.MapRightKey("race_id");
+               m.ToTable("year_race");
            });
         }
     }

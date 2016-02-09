@@ -41,6 +41,10 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Build.Framework" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -49,12 +53,40 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\AMF.Web\Bin\Ninject.dll</HintPath>
     </Reference>
+    <Reference Include="RequireJsNet, Version=2.1.52.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RequireJsNet.2.1.52.0\lib\net40\RequireJsNet.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.Helpers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.4.0.30506.0\lib\net40\System.Web.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.2.0.20710.0\lib\net40\System.Web.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Deployment.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -70,10 +102,19 @@
     <Compile Include="Enums\Bonus.cs" />
     <Compile Include="Enums\Ressource.cs" />
     <Compile Include="Enums\Reward.cs" />
+    <Compile Include="Extensions\DateTimeExtension.cs" />
     <Compile Include="Extensions\StringsExtensions.cs" />
     <Compile Include="Migrations\201512300635189_Init.cs" />
     <Compile Include="Migrations\201512300635189_Init.Designer.cs">
       <DependentUpon>201512300635189_Init.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201512301724403_YearRelation.cs" />
+    <Compile Include="Migrations\201512301724403_YearRelation.Designer.cs">
+      <DependentUpon>201512301724403_YearRelation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201512302026307_CategorySkillRelation.cs" />
+    <Compile Include="Migrations\201512302026307_CategorySkillRelation.Designer.cs">
+      <DependentUpon>201512302026307_CategorySkillRelation.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\Category.cs" />
@@ -98,6 +139,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201512300635189_Init.resx">
       <DependentUpon>201512300635189_Init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201512301724403_YearRelation.resx">
+      <DependentUpon>201512301724403_YearRelation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201512302026307_CategorySkillRelation.resx">
+      <DependentUpon>201512302026307_CategorySkillRelation.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

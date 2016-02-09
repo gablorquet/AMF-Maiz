@@ -26,7 +26,7 @@ namespace AMF.Core.Model
 
     public class Scenario : Entity
     {
-        public List<Year> Years { get; set; } 
+        public virtual List<Year> Years { get; set; } 
 
     }
 }

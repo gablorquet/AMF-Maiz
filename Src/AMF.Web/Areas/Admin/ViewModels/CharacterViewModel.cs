@@ -8,7 +8,7 @@ namespace AMF.Web.Areas.Admin.ViewModels
     {
 
         public List<RaceViewModel> RacesAvailable { get; set; }
-        public List<CategoryViewModel> CategotyAvailable { get; set; }
+        public List<CategoryViewModel> CategoriesAvailable { get; set; }
 
         public int NbCategoriesAvailable { get; set; }
         public int NbSkillAvailable { get; set; }
@@ -25,7 +25,7 @@ namespace AMF.Web.Areas.Admin.ViewModels
 
         public CharacterViewModel(Player player, Event currentEvent)
         {
-            CategotyAvailable = currentEvent.Year.PlayableCategories
+            CategoriesAvailable = currentEvent.Year.PlayableCategories
                 .Select(x => new CategoryViewModel(x))
                 .ToList();
 
@@ -42,7 +42,7 @@ namespace AMF.Web.Areas.Admin.ViewModels
 
         public CharacterViewModel(Character data, Event currentEvent)
         {
-            CategotyAvailable = currentEvent.Year.PlayableCategories
+            CategoriesAvailable = currentEvent.Year.PlayableCategories
                 .Where(x => !data.Categories.Select(y => y.Id).Contains(x.Id))
                 .Select(x => new CategoryViewModel(x))
                 .ToList();
@@ -53,6 +53,7 @@ namespace AMF.Web.Areas.Admin.ViewModels
             NbLegacyAvailable = data.IsEligibleForNewLegacy();
             NbSkillAvailable = data.IsEligibleForNewSkill(currentEvent);
 
+            
             Player = data.Player;
             Name = data.Name;
         }

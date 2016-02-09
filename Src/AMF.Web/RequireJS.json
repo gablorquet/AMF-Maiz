@@ -1,0 +1,20 @@
+﻿{
+    "paths": {
+        "i18n": "Components/RequireJS/i18n",
+        "text": "Components/RequireJS/text",
+        "jquery": "Components/jquery-2.1.4",
+        "knockout": "Components/knockout-3.3.0",
+        "bootstrap": "Components/bootstrap.min",
+        "datatables": "Components/jquery.dataTables-1.10.10",
+        "lazy": "Components/lazy-0.4.2"
+    },
+    "shim": {
+        "bootstrap": {
+            "deps": [ "jquery" ]
+        },
+        "highcharts": {
+            "deps": [ "jquery" ],
+            "exports":  "jquery"
+        }
+    }
+}

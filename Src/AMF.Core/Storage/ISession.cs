@@ -21,5 +21,8 @@ namespace AMF.Core.Storage
             where TElement : Entity;
 
         void Detach<T>(T model) where T : Entity;
+
+
+        void PURGEDATABASE();
     }
 }

@@ -7,6 +7,8 @@ namespace AMF.Core.Model
     {
         public string Name { get; set; }
 
+        public virtual Category Category { get; set; }
+
         public virtual List<Skill> Prerequisites { get; set; }
 
         public virtual List<Spell> Spells { get; set; }

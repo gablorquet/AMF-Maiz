@@ -19,6 +19,8 @@ namespace AMF.Web.Areas.Admin.ViewModels
         [DataType(DataType.Date)]
         public DateTime? DateOfBirth { get; set; }
 
+        public DateTime CreationDate { get; set; }
+
         public PlayerViewModel(){}
 
 
@@ -30,6 +32,7 @@ namespace AMF.Web.Areas.Admin.ViewModels
             DateOfBirth = data.DateOfBirth;
             Email = data.Email;
             Username = data.Username;
+            CreationDate = data.CreationDate;
 
         }
 

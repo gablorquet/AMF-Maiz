@@ -4,10 +4,9 @@
 }
 
 <h2>Index</h2>
-@Html.ActionLink("Inscrire un nouveau joueur", "Create", "Player")
-@Html.ActionLink("Mettre à jour un joueur", "Index", "Player")
+@Html.ActionLink("Inscrire un nouveau joueur", "Create", "Player") <br/>
+@Html.ActionLink("Mettre à jour un joueur", "Index", "Player")<br/>
 
+@Html.ActionLink("Mettre à jour un personnage", "Index", "Character")<br/>
 
-<a href="@Url.Action("Index", "Character")">Créer un nouveau personnage</a>
-<a href="@Url.Action("Index", "Character")">Mettre à jour un personnage</a>
 

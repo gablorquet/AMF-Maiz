@@ -6,6 +6,6 @@ namespace AMF.Core.Model
     {
         public string Name { get; set; }
 
-        public List<Skill> Skills { get; set; }
+        public virtual List<Skill> Skills { get; set; }
     }
 }

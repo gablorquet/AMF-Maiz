@@ -1,7 +1,35 @@
-﻿@model List<AMF.Web.Areas.Admin.ViewModels.PlayerViewModel>
+﻿@using AMF.Core.Extensions
+@using AMF.Web.Ressources
+@model List<AMF.Web.Areas.Admin.ViewModels.PlayerViewModel>
 @{
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>@Strings.PlayerList</h2>
 
+
+<table id="players" class="table">
+    <thead>
+    <tr>
+        <th>@Strings.Username</th>
+        <th>@Strings.Player</th>
+        <th>@Strings.Age</th>
+        <th>@Strings.CreationDate</th>
+        <th>@Strings.Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var playerViewModel in Model)
+    {
+        <tr>
+            <td>@(playerViewModel.Username)</td>
+            <td>@(playerViewModel.FirstName + " " + playerViewModel.LastName)</td>
+            <td>@(playerViewModel.DateOfBirth.HasValue ? playerViewModel.DateOfBirth.Value.AsAge() : Strings.NA)</td>
+            <td>@playerViewModel.CreationDate.ToShortDateString()</td>
+            <td>
+                <a href="@Url.Action("Update", "Player", new {playerId = playerViewModel.Id})">@Strings.Edit</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

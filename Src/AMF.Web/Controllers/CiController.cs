@@ -19,55 +19,7 @@ namespace AMF.Web.Controllers
 
         public string Clear()
         {
-            var characters = _session.Set<Character>().ToList();
-            foreach (var character in characters)
-            {
-                _session.Delete(character);
-            }
-
-            var users = _session.Set<User>().ToList();
-            foreach (var user in users)
-            {
-                _session.Delete(user);
-            }
-
-            var skills = _session.Set<Skill>().ToList();
-            foreach (var skill in skills)
-            {
-                _session.Delete(skill);
-            }
-
-            var spells = _session.Set<Spell>().ToList();
-            foreach (var spell in spells)
-            {
-                _session.Delete(spell);
-            }
-
-            var categories = _session.Set<Category>().ToList();
-            foreach (var category in categories)
-            {
-                _session.Delete(category);
-            }
-
-            var races = _session.Set<Race>().ToList();
-            foreach (var race in races)
-            {
-                _session.Delete(race);
-            }
-
-            var events = _session.Set<Event>().ToList();
-            foreach (var eventitem in events)
-            {
-                _session.Delete(eventitem);
-            }
-
-            var years = _session.Set<Year>().ToList();
-            foreach (var year in years)
-            {
-                _session.Delete(year);
-            }
-
-            _session.Commit();
+            _session.PURGEDATABASE();
 
             return "Done";
 
@@ -87,27 +39,115 @@ namespace AMF.Web.Controllers
             _session.Add(animateur);
             _session.Commit();
 
+            var arcane = BuildArcane();
+
+            var divine = BuildDivine();
+
+            var martial = BuildMartial();
+
+            var chasse = BuildChasse();
+
+            var nature = BuildNature();
+
+            var roublard = BuildRoublard();
+
+
+            var scenario = new Scenario();
+            _session.Add(scenario);
+            _session.Commit();
+
+           
+            var year = new Year
+            {
+                Name = "2016",
+                Scenario = scenario,
+                PlayableCategories = new List<Category> { arcane, divine, martial, chasse, nature, roublard },
+                PlayableRaces = BuildRaces()
+            };
+
+            _session.Add(year);
+            _session.Commit();
+
+
+            var newEvent = new Event
+            {
+                Year = year,
+                Date = new DateTime(2016, 01, 01),
+                EventNumber = 0,
+                NextEvent = true
+            };
+            year.Events.Add(newEvent);
+            _session.Commit();
+
+            return "Done";
+        }
+
+        private List<Race> BuildRaces()
+        {
+            var nains = new Race
+            {
+                Name = "Nains",
+                Skills = new List<Skill>
+                {
+                    new Skill
+                    {
+                        Name = "Port d'armure lourde"
+                    },
+                    new Skill
+                    {
+                        Name = "Soins amélioré"
+                    }
+                }
+            };
+
+            var humains = new Race
+            {
+                Name = "Humain",
+            };
+            var drake = new Race
+            {
+                Name = "Drake"
+            };
+            var elfe = new Race
+            {
+                Name = "Elfe"
+            };
+
+            var halfelin = new Race
+            {
+                Name = "Halfelin"
+            };
+
+            var orc = new Race
+            {
+                Name = "Orc"
+            };
+
+            var tarente = new Race
+            {
+                Name = "Tarente"
+            };
+
+            var duneen = new Race
+            {
+                Name = "Dunéen"
+            };
+
+            return new List<Race>
+            {
+                nains, halfelin, humains, duneen, drake, elfe, orc, tarente
+            };
+
+        }
+
+        public Category BuildArcane()
+        {
             var arcane = new Category
             {
                 Name = "Arcane",
                 IsMastery = false
             };
 
-            _session.Add(arcane);
-            _session.Commit();
-
-
-            var arcanePassives = new List<Skill>
-            {
-                new Skill
-                {
-                    Name = "Détection de la Magie",
-                },
-                new Skill
-                {
-                    Name = "Artificier"
-                }
-            };
 
             var arcaneskills = new List<Skill>
             {
@@ -153,7 +193,18 @@ namespace AMF.Web.Controllers
                 {
                     Name = "Incantation Rapide",
                     ArmorRestricted = true,
+                },
+                new Skill
+                {
+                    Name = "Détection de la Magie",
+                    IsPassive = true
+                },
+                new Skill
+                {
+                    Name = "Artificier",
+                    IsPassive = true
                 }
+
             };
 
 
@@ -163,122 +214,105 @@ namespace AMF.Web.Controllers
                     arcaneskills[8],
                     arcaneskills[7],
             };
-            arcane.Skills = arcaneskills;
 
+            arcaneskills[8].Prerequisites = new List<Skill>
+            {
+                    arcaneskills[6],
+                    arcaneskills[3]
+            };
+
+            arcaneskills[7].Prerequisites = new List<Skill>
+            {
+                    arcaneskills[8],
+                    arcaneskills[1],
+                
+            };
+
+            arcaneskills[6].Prerequisites = new List<Skill>
+            {
+                    arcaneskills[0],
+                    arcaneskills[1],
+                    arcaneskills[2],
+                
+            };
+
+            arcaneskills[5].Prerequisites = new List<Skill>
+            {
+                    arcaneskills[4]
+                
+            };
+
+            arcaneskills[4].Prerequisites = new List<Skill>
+            {
+                    arcaneskills[3]
+                
+            };
+
+            arcaneskills[3].Prerequisites = new List<Skill>
+            {
+                    arcaneskills[2]
+            };
+
+            arcane.Skills = arcaneskills;
             _session.Add(arcane);
             _session.Commit();
 
-            //arcaneskills[8].Prerequisite = new SkillsPrerequisite
-            //{
-            //    Parent = arcaneskills[8],
-            //    Child = new List<Skill>
-            //    {
-            //        arcaneskills[6],
-            //        arcaneskills[3]
-            //    }
-            //};
-            //_session.Commit();
+            return arcane;
+        }
 
-            //arcaneskills[7].Prerequisite = new SkillsPrerequisite
-            //{
-            //    Parent = arcaneskills[7],
-            //    Child = new List<Skill>
-            //    {
-            //        arcaneskills[8],
-            //        arcaneskills[1],
-            //    }
-            //};
-            //_session.Commit();
-
-            //arcaneskills[6].Prerequisite = new SkillsPrerequisite
-            //{
-            //    Parent = arcaneskills[6],
-            //    Child = new List<Skill>
-            //    {
-            //        arcaneskills[0],
-            //        arcaneskills[1],
-            //        arcaneskills[2],
-            //    }
-            //};
-            //_session.Commit();
-
-            //arcaneskills[5].Prerequisite = new SkillsPrerequisite
-            //{
-            //    Parent = arcaneskills[5],
-            //    Child = new List<Skill>
-            //    {
-            //        arcaneskills[4]
-            //    }
-            //};
-            //_session.Commit();
-
-            //arcaneskills[4].Prerequisite = new SkillsPrerequisite
-            //{
-            //    Parent = arcaneskills[4],
-            //    Child = new List<Skill>
-            //    {
-            //        arcaneskills[3]
-            //    }
-            //};
-            //_session.Commit();
-
-            //arcaneskills[3].Prerequisite = new SkillsPrerequisite
-            //{
-            //    Parent = arcaneskills[3],
-            //    Child = new List<Skill>
-            //    {
-            //        arcaneskills[2]
-            //    }
-            //};
-
-            _session.Commit();
-            
-            var scenario = new Scenario();
-            _session.Add(scenario);
-            _session.Commit();
-
-
-            var race = new Race
+        private Category BuildDivine()
+        {
+            var divine = new Category
             {
-                Name = "Nains",
-                Skills = new List<Skill>
-                {
-                    new Skill
-                    {
-                        Name = "Port d'armure lourde"
-                    },
-                    new Skill
-                    {
-                        Name = "Soins amélioré"
-                    }
-                }
-            };
-            _session.Add(race);
-            _session.Commit();
-
-            var year = new Year
-            {
-                Name = "2016",
-                Scenario = scenario,
-                PlayableCategories = new List<Category> { arcane },
-                PlayableRaces = new List<Race> {  race, }
+                Name = "Divin",
+                IsMastery = false
             };
 
-            _session.Add(year);
-            _session.Commit();
+            return divine;
+        }
 
-
-            var newEvent = new Event
+        private Category BuildNature()
+        {
+            var nature = new Category
             {
-                Year = year,
-                Date = new DateTime(2016,01,01),
-                EventNumber = 0
+                Name = "Naturalisme",
+                IsMastery = false
             };
-            year.Events.Add(newEvent);
-            _session.Add(newEvent);
-            _session.Commit();
 
-            return "Done";
+            return nature;
+        }
+
+        private Category BuildMartial()
+        {
+            var martial = new Category
+            {
+                Name = "Martial",
+                IsMastery = false
+            };
+
+            return martial;
+        }
+
+        public Category BuildChasse()
+        {
+            var chasse = new Category
+            {
+                Name = "Chasse",
+                IsMastery = false
+            };
+
+            return chasse;
+        }
+
+        public Category BuildRoublard()
+        {
+            var roublard = new Category
+            {
+                Name = "Roublardise",
+                IsMastery = false
+            };
+
+            return roublard;
         }
     }
 }

@@ -1,0 +1,52 @@
+﻿@model AMF.Web.Areas.Admin.ViewModels.CharacterViewModel
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Créer un nouveau personnage</h2>
+
+<!-- ko with : $root.CreateCharacter -->
+@using (Html.BeginForm("Create", "Character"))
+{
+    <div class="row form-group">
+        <div class="col-md-4">
+            <label>Nom du personnage</label>
+        </div>
+        <div class="col-md-4">
+            <input class="form-control" type="text" data-bind="textInput : characterName" />
+        </div>
+    </div>
+
+    <div class="row form-group">
+        <div class="col-md-4">
+            <label>Race</label>
+        </div>
+        <div class="col-md-4">
+            <select class="form-control"  data-bind="options : racesAvailable, optionsText : 'text', value: selectedRace"></select>
+        </div>
+    </div>
+
+
+    <div class="row form-group" data-bind="visible : nbCat > 0">
+        <div class="col-md-4">
+            <label>Nouvelle Catégorie</label>
+        </div>
+        <div class="col-md-4">
+            <select class="form-control" multiple="multiple" size="6" data-bind="options : categoriesAvailable,
+                                                selectedOptions : selectedCategories,
+                                                optionsText: 'text'"></select>
+            Choix de catégories restants : <!-- ko text : nbCat - selectedCategories().length --><!-- /ko -->
+        </div>
+    </div>
+    
+    
+
+    
+    <input type="submit" value="Enregistrer" class="btn btn-primary" data-bind="attr : {disabled : !formIsValid }, css : {disabled : !formIsValid}"/>
+}
+
+<!-- /ko -->
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

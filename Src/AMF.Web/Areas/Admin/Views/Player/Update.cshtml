@@ -5,6 +5,9 @@
 
 <h2>Update</h2>
 
+<a href="@Url.Action("Create", "Character", new { playerId = Model.Id })">Créer un nouveau personnage</a>
+
+
 @using (Html.BeginForm("Update", "Player", FormMethod.Post))
 {
     Html.RenderPartial("_Player", Model);

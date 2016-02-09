@@ -20,7 +20,9 @@ namespace AMF.Web.Areas.Admin.Controllers
         {
             var players = _session.Set<Player>().ToList();
 
-            var model = players.Select(x => new PlayerViewModel(x)).ToList();
+            var model = players
+                .Where(x => !x.Archived.HasValue)
+                .Select(x => new PlayerViewModel(x)).ToList();
 
             return View(model);
         }

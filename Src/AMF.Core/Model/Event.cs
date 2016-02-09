@@ -9,10 +9,11 @@ namespace AMF.Core.Model
 
         public int EventNumber { get; set; }
 
-        public List<Character> Attendees { get; set; }
+        public virtual List<Character> Attendees { get; set; }
 
-        public Year Year { get; set; }
+        public virtual Year Year { get; set; }
 
+        public bool NextEvent { get; set; }
 
         public int NbOfMaxSkill()
         {

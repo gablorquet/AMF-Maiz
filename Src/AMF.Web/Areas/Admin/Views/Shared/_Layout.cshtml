@@ -1,32 +1,43 @@
-﻿<!DOCTYPE html>
+﻿@using RequireJsNet
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>Module d'inscription - AMF Maiz</title>
+
+    <link rel="stylesheet" href="//cdn.datatables.net/responsive/1.0.6/css/dataTables.responsive.css" />
+    <link rel="stylesheet" href="//cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.css" />
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/css/bootstrap-select.min.css" />
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav"></ul>
-            </div>
-        </div>
-    </div>
-
     <div class="container body-content">
         @RenderBody()
-        <hr />
     </div>
 
-    @RenderSection("scripts", required: false)
+    @Html.RenderRequireJsSetup(new RequireRendererConfiguration
+    {
+        // the url from where require.js will be loaded
+        RequireJsUrl = Url.Content("~/Scripts/Components/RequireJS/require.js"),
+        // baseUrl to be passed to require.js, will be used when composing urls for scripts
+        BaseUrl = Url.Content("~/Scripts/"),
+        // a list of all the configuration files you want to load
+        ConfigurationFiles = new[] { "~/RequireJS.json" },
+        // root folder for your js controllers, will be used for composing paths to entrypoint
+        EntryPointRoot = "~/Scripts/",
+        // whether we should load overrides or not, used for autoBundles, disabled on debug mode
+        LoadOverrides = !HttpContext.Current.IsDebuggingEnabled,
+        // compute the value you want locale to have, used for i18n
+        LocaleSelector = html => System.Threading.Thread.CurrentThread.CurrentUICulture.Name.Split('-')[0],
+        // instance of IRequireJsLogger
+        Logger = null,
+        // extensability point for the config object
+        ProcessConfig = config => { },
+        // extensability point for the options object
+        ProcessOptions = options => { },
+    })
 </body>
 </html>
