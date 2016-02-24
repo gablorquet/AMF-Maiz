@@ -23,7 +23,16 @@
             <label>Race</label>
         </div>
         <div class="col-md-4">
-            <select class="form-control"  data-bind="options : racesAvailable, optionsText : 'text', value: selectedRace"></select>
+            <select class="form-control" data-bind="options : racesAvailable, optionsText : 'text', value: selectedRace"></select>
+        </div>
+    </div>
+
+    <div class="row form-group">
+        <div class="col-md-4">
+            <label>Languages</label>
+        </div>
+        <div class="col-md-4">
+            <select class="form-control" data-bind="options : languagesAvailable, optionsText: 'text', value: selectedLanguage"></select>
         </div>
     </div>
 
@@ -39,8 +48,12 @@
             Choix de catégories restants : <!-- ko text : nbCat - selectedCategories().length --><!-- /ko -->
         </div>
     </div>
-    
-    
+
+    <div>
+        <!-- ko foreach : skillsAvailable-->
+            <!-- ko text : Name --><!--/ko--><br/>
+        <!-- /ko -->
+    </div>
 
     
     <input type="submit" value="Enregistrer" class="btn btn-primary" data-bind="attr : {disabled : !formIsValid }, css : {disabled : !formIsValid}"/>

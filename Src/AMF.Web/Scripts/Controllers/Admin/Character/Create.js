@@ -26,7 +26,8 @@
                         return {
                             name: racial.Name
                         }
-                    }).toArray()
+                    }).toArray(),
+                    lang : race.Language
                 }
             })
             .sortBy('text').toArray();
@@ -40,11 +41,49 @@
                 }
             }).toArray();
 
+            self.languagesAvailable = ko.observableArray(Lazy(data.LanguagesAvailable).map(function(lng) {
+                return {
+                    id: lng.Id,
+                    text: lng.Text
+                }
+            }).toArray());
+
+            self.skillsAvailable = ko.observableArray(data.SkillsAvailable);
+
             self.selectedRace = ko.observable();
             self.selectedSkills = ko.observableArray([]);
             self.selectedCategories = ko.observableArray([]);
             self.selectedLegacies = ko.observableArray([]);
+            self.selectedLanguage = ko.observable();
 
+            self.selectedRace.subscribe(function (sel) {
+                self.languagesAvailable(Lazy(self.languagesAvailable()).where(function(lng) {
+                    return lng.id !== sel.lang.Id;
+                }).toArray());
+            });
+
+            self.selectedSkills.subscribe(function(sel) {
+                self.filterSkills();
+            });
+
+            self.selectedCategories.subscribe(function() {
+                self.filterSkills();
+            });
+
+            self.filterSkills = function() {
+                var filtered = Lazy(data.SkillsAvailable)
+                    .where(function(skill) {
+                        return Lazy(self.selectedCategories()).some(function(cat) {
+                                return cat.id === skill.CategoryId;
+                            }) &&
+                            !Lazy(self.selectedSkills())
+                            .some(function(sk) {
+                                return sk.skillId === skill.skillId;
+                            });
+                    }).toArray();
+
+                self.skillsAvailable(filtered);
+            }
 
             self.formIsValid = ko.pureComputed(function() {
                 if (self.nbCat !== self.selectedCategories().length)

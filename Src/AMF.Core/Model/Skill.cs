@@ -13,10 +13,11 @@ namespace AMF.Core.Model
 
         public virtual List<Spell> Spells { get; set; }
 
-        public Bonus Bonus { get; set; }
+        public virtual List<Bonus> Bonus { get; set; }
 
         public bool IsLegacy { get; set; }
         public bool IsPassive { get; set; }
+        public bool IsRacial { get; set; }
 
         public bool ArmorRestricted { get; set; }
     }

@@ -1,7 +1,9 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Web.Helpers;
 using System.Web.Mvc;
+using AMF.Core.Enums;
 using AMF.Core.Model;
 using AMF.Core.Storage;
 using AMF.Web.Annotations;
@@ -50,7 +52,10 @@ namespace AMF.Web.Areas.Admin.Controllers
             if (currentEvent.Attendees.Any(x => x.Player.Id == playerId))
                 return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
 
-            var model = new CharacterViewModel(player, currentEvent);
+            var model = new CharacterViewModel(player, currentEvent)
+            {
+                SkillsAvailable = GetSkillsForEvent()
+            };
 
             RequireJsOptions.Add("model", model);
 
@@ -80,7 +85,10 @@ namespace AMF.Web.Areas.Admin.Controllers
             if (character == null)
                 return new HttpNotFoundResult();
 
-            var model = new CharacterViewModel(character, currentEvent);
+            var model = new CharacterViewModel(character, currentEvent)
+            {
+                SkillsAvailable = GetSkillsForEvent()
+            };
 
             return View(model);
         }
@@ -102,24 +110,21 @@ namespace AMF.Web.Areas.Admin.Controllers
             return RedirectToAction("Index", "Dashboard");
         }
 
-        public JsonResult GetSkillAvailableForCharacter(int characterId, int[] selectedCategories, int[] selectedSkills)
+        public JsonResult GetSkills()
         {
-            var character = _session.SingleById<Character>(characterId);
+            return Json(GetSkillsForEvent(), JsonRequestBehavior.AllowGet);
+        }
 
-            if (character == null)
-                return Json("", JsonRequestBehavior.AllowGet);
+        private List<SkillViewModel> GetSkillsForEvent()
+        {
+            var currentEvent = _session.Set<Event>().First(x => x.NextEvent);
 
-            var skills = _session.Set<Skill>()
-                .Where(x => character.Categories.Select(y => y.Id).Contains(x.Category.Id) ||
-                            selectedCategories.Contains(x.Category.Id))
-                .Where(x => x.Prerequisites
-                    .Any(y => 
-                        !y.Prerequisites.Any() ||
-                        character.Skills.Select(z => z.Id).Contains(y.Id) ||
-                        x.Prerequisites.Any(a => selectedSkills.Contains(a.Id))))
+            var skills = currentEvent.Year.PlayableCategories
+                .SelectMany(x => x.Skills)
+                .Select(x => new SkillViewModel(x))
                 .ToList();
 
-            return Json(skills.Select(x => new SkillViewModel(x)), JsonRequestBehavior.AllowGet);
-        }
+            return skills;
+        } 
     }
 }

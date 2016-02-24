@@ -70,7 +70,7 @@ namespace AMF.Core.Model
         public int GoldPiecesFromInfluence()
         {
             var racial = 0;
-            if (Race.Skills.Any(x => x.Bonus == Bonus.ExtraGoldFromInfluence))
+            if (Race.Skills.Any(x => x.Bonus.Contains(Bonus.ExtraGoldFromInfluence)))
                 racial++;
 
             if (Influence >= 3)

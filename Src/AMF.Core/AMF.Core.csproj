@@ -50,8 +50,8 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Ninject, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\AMF.Web\Bin\Ninject.dll</HintPath>
+      <HintPath>..\packages\Ninject.3.2.0.0\lib\net45-full\Ninject.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="RequireJsNet, Version=2.1.52.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RequireJsNet.2.1.52.0\lib\net40\RequireJsNet.dll</HintPath>
@@ -100,9 +100,11 @@
     <Compile Include="DI\NinjectDependencyResolver.cs" />
     <Compile Include="DI\NinjectScope.cs" />
     <Compile Include="Enums\Bonus.cs" />
+    <Compile Include="Enums\Language.cs" />
     <Compile Include="Enums\Ressource.cs" />
     <Compile Include="Enums\Reward.cs" />
     <Compile Include="Extensions\DateTimeExtension.cs" />
+    <Compile Include="Extensions\EnumExtension.cs" />
     <Compile Include="Extensions\StringsExtensions.cs" />
     <Compile Include="Migrations\201512300635189_Init.cs" />
     <Compile Include="Migrations\201512300635189_Init.Designer.cs">

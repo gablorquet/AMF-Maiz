@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using AMF.Core.Enums;
+using AMF.Core.Extensions;
 using AMF.Core.Model;
 
 namespace AMF.Web.Areas.Admin.ViewModels
@@ -9,6 +12,7 @@ namespace AMF.Web.Areas.Admin.ViewModels
 
         public List<RaceViewModel> RacesAvailable { get; set; }
         public List<CategoryViewModel> CategoriesAvailable { get; set; }
+        public List<SkillViewModel> SkillsAvailable { get; set; } 
 
         public int NbCategoriesAvailable { get; set; }
         public int NbSkillAvailable { get; set; }
@@ -18,6 +22,8 @@ namespace AMF.Web.Areas.Admin.ViewModels
         public List<int> SelectedSkills { get; set; }
         public List<int> SelectedCategories { get; set; }
         public List<int> SelectedLegacySkills { get; set; }
+
+        public List<LanguageViewModel> LanguagesAvailable { get; set; }
 
 
         public Player Player { get; set; }
@@ -32,6 +38,15 @@ namespace AMF.Web.Areas.Admin.ViewModels
             RacesAvailable = currentEvent.Year.PlayableRaces
                 .Select(x => new RaceViewModel(x))
                 .ToList();
+
+            LanguagesAvailable = new List<LanguageViewModel>();
+            foreach (Language lng in Enum.GetValues(typeof (Language)))
+            {
+                LanguagesAvailable.Add(new LanguageViewModel
+                {
+                    Id = lng, Text = lng.AsDisplayable()
+                });
+            }
 
             Player = player;
             var data = new Character();
@@ -62,5 +77,11 @@ namespace AMF.Web.Areas.Admin.ViewModels
         {
             return new Character();
         }
+    }
+
+    public class LanguageViewModel
+    {
+        public Language Id { get; set; }
+        public string Text { get; set; }
     }
 }

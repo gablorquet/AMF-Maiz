@@ -2,6 +2,13 @@
 {
     public enum Bonus
     {
-        ExtraGoldFromInfluence
+        ExtraGoldFromInfluence,
+        ExtraInfluence,
+        ExtraHP,
+        ExtraMinor,
+        HeavyArmorProf,
+        HeavyWeaponProf,
+        ThreeMinor,
+        TwoMajor
     }
 }
