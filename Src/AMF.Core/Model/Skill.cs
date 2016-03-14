@@ -13,12 +13,26 @@ namespace AMF.Core.Model
 
         public virtual List<Spell> Spells { get; set; }
 
-        public virtual List<Bonus> Bonus { get; set; }
+        public virtual List<SkillBonus> Bonus { get; set; }
 
         public bool IsLegacy { get; set; }
         public bool IsPassive { get; set; }
         public bool IsRacial { get; set; }
 
         public bool ArmorRestricted { get; set; }
+
+        public virtual List<Character> Characters { get; set; } 
+
+        public Skill()
+        {
+            Prerequisites = new List<Skill>();
+            Spells = new List<Spell>();
+            Bonus = new List<SkillBonus>();
+        }
+    }
+
+    public class SkillBonus : Entity
+    {
+        public Bonus Bonus { get; set; }
     }
 }

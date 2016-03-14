@@ -157,11 +157,13 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\DashboardController.cs" />
     <Compile Include="Areas\Admin\Controllers\CharacterController.cs" />
-    <Compile Include="Areas\Admin\ViewModels\CategoryViewModel.cs" />
+    <Compile Include="Areas\Admin\Controllers\YearController.cs" />
     <Compile Include="Areas\Admin\ViewModels\CharacterViewModel.cs" />
-    <Compile Include="Areas\Admin\ViewModels\RaceViewModle.cs" />
-    <Compile Include="Areas\Admin\ViewModels\SkillViewModel.cs" />
+    <Compile Include="Areas\Admin\ViewModels\DebriefingViewModel.cs" />
+    <Compile Include="Areas\Admin\ViewModels\EventViewModel.cs" />
+    <Compile Include="Areas\Admin\ViewModels\YearViewModel.cs" />
     <Compile Include="Controllers\CiController.cs" />
+    <Compile Include="Areas\Admin\Controllers\EventController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Areas\Admin\Controllers\PlayerController.cs" />
     <Compile Include="Areas\Admin\ViewModels\PlayerViewModel.cs" />
@@ -192,6 +194,10 @@
     <Content Include="Scripts\Components\RequireJS\require.js" />
     <Content Include="Scripts\Components\RequireJS\text.js" />
     <Content Include="Scripts\Controllers\Admin\Character\Create.js" />
+    <Content Include="Scripts\Controllers\Admin\Character\Index.js" />
+    <Content Include="Scripts\Controllers\Admin\Character\Update.js" />
+    <Content Include="Scripts\Controllers\Admin\Event\CloseEvent.js" />
+    <Content Include="Scripts\Controllers\Admin\Event\Index.js" />
     <Content Include="Scripts\Controllers\Admin\Player\Index.js" />
     <Content Include="Scripts\Controllers\Root\Home\Index.js" />
     <Content Include="Areas\Admin\Views\Dashboard\Index.cshtml" />
@@ -216,6 +222,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Extensions\" />
+    <Folder Include="Scripts\ViewModel\" />
     <Folder Include="Views\Ci\" />
   </ItemGroup>
   <ItemGroup>
@@ -243,12 +250,16 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Admin\Views\Character\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Character\Debriefing.cshtml" />
     <None Include="Areas\Admin\Views\Character\Index.cshtml" />
     <Content Include="RequireJS.json" />
     <Content Include="Styles\Bootstrap\bootstrap-theme.css.map" />
     <Content Include="Styles\Bootstrap\bootstrap-theme.min.css.map" />
     <Content Include="Styles\Bootstrap\bootstrap.css.map" />
     <Content Include="Styles\Bootstrap\bootstrap.min.css.map" />
+    <Content Include="Areas\Admin\Views\Event\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Event\EventStats.cshtml" />
+    <Content Include="Areas\Admin\Views\Character\Update.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Ressources\Strings.resx">

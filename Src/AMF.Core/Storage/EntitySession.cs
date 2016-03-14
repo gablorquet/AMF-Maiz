@@ -76,9 +76,6 @@ namespace AMF.Core.Storage
         {
             _context.Dispose();
         }
-
-
-
         
         public void PURGEDATABASE()
         {

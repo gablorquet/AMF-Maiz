@@ -61,12 +61,20 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.Helpers.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Mvc.4.0.30506.0\lib\net40\System.Web.Mvc.dll</HintPath>
       <Private>True</Private>
@@ -118,6 +126,26 @@
     <Compile Include="Migrations\201512302026307_CategorySkillRelation.Designer.cs">
       <DependentUpon>201512302026307_CategorySkillRelation.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201602270228233_PostFormatSetup.cs" />
+    <Compile Include="Migrations\201602270228233_PostFormatSetup.Designer.cs">
+      <DependentUpon>201602270228233_PostFormatSetup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201602292318466_Fixed-Bonuses.cs" />
+    <Compile Include="Migrations\201602292318466_Fixed-Bonuses.Designer.cs">
+      <DependentUpon>201602292318466_Fixed-Bonuses.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201602292322576_Re-Fixed-Bonus.cs" />
+    <Compile Include="Migrations\201602292322576_Re-Fixed-Bonus.Designer.cs">
+      <DependentUpon>201602292322576_Re-Fixed-Bonus.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201603061924493_EventClosure.cs" />
+    <Compile Include="Migrations\201603061924493_EventClosure.Designer.cs">
+      <DependentUpon>201603061924493_EventClosure.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201603062002544_ScenarioName.cs" />
+    <Compile Include="Migrations\201603062002544_ScenarioName.Designer.cs">
+      <DependentUpon>201603062002544_ScenarioName.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\Category.cs" />
     <Compile Include="Model\Character.cs" />
@@ -147,6 +175,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201512302026307_CategorySkillRelation.resx">
       <DependentUpon>201512302026307_CategorySkillRelation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201602270228233_PostFormatSetup.resx">
+      <DependentUpon>201602270228233_PostFormatSetup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201602292318466_Fixed-Bonuses.resx">
+      <DependentUpon>201602292318466_Fixed-Bonuses.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201602292322576_Re-Fixed-Bonus.resx">
+      <DependentUpon>201602292322576_Re-Fixed-Bonus.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603061924493_EventClosure.resx">
+      <DependentUpon>201603061924493_EventClosure.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603062002544_ScenarioName.resx">
+      <DependentUpon>201603062002544_ScenarioName.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

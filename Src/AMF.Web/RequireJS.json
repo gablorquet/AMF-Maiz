@@ -6,7 +6,8 @@
         "knockout": "Components/knockout-3.3.0",
         "bootstrap": "Components/bootstrap.min",
         "datatables": "Components/jquery.dataTables-1.10.10",
-        "lazy": "Components/lazy-0.4.2"
+        "lazy": "Components/lazy-0.4.2",
+		"skillViewModel" : "ViewModel/SkillViewModel"
     },
     "shim": {
         "bootstrap": {

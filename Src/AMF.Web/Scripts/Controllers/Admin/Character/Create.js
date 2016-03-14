@@ -2,102 +2,149 @@
     [
         "jquery",
         "knockout",
-        "lazy"
+        "lazy",
+        "bootstrap"
     ],
-    function($, ko, Lazy) {
-        var data = requireConfig.pageOptions.model;
+    function ($, ko, Lazy) {
+        var data;
+        $.ajax("/Admin/Character/GetDataForCurrentEvent")
+            .done(function (resp) {
+                data = resp;
 
-        var model = {};
-        model.CreateCharacter = function () {
-            var self = this;
+                var model = {};
+                model.CreateCharacter = function () {
+                    var self = this;
 
-            self.characterName = ko.observable();
-            self.characterName('');
+                    self.characterName = ko.observable().extend({ notify: 'always' });
+                    self.characterName('');
 
-            self.nbSkill = data.NbSkillAvailable;
-            self.nbCat = data.NbCategoriesAvailable;
-            self.nbLegacy = data.NbLegacyAvailable;
+                    self.languagesAvailable = ko.observableArray(data.languagesAvailable);
+                    self.selectedLanguage = ko.observable().extend({ notify: 'always' });
 
-            self.racesAvailable = Lazy(data.RacesAvailable).map(function(race) {
-                return {
-                    id: race.Id,
-                    text: race.Name,
-                    details : Lazy(race.Racials).map(function(racial) {
-                        return {
-                            name: racial.Name
+                    self.racesAvailable = data.races;
+                    self.selectedRace = ko.observable().extend({ notify: 'always' });
+                    self.selectedRace.subscribe(function () {
+                        var selected = self.selectedRace();
+
+                        var newSkills = [];
+
+                        selected.skills.forEach(function (racial) {
+                            if (racial.category) {
+                                if (Lazy(self.skills.unlockedCats()).some(function(cat) {
+                                    return cat.catId == racial.category;
+                                })) {
+                                    newSkills.push(racial);
+                                }
+                            } else {
+                                newSkills.push(racial);
+                            }
+                        });
+
+                        self.selectedRacials(newSkills);
+
+                        var filtered = Lazy(self.languagesAvailable()).where(function (lng) {
+                            if (selected.language === 3)
+                                return false;
+
+                            return lng.id !== selected.language;
+                        }).toArray();
+                        self.languagesAvailable(filtered);
+                    });
+
+                    self.selectedRacials = ko.observableArray();
+
+                    self.skills = new function () {
+                        var skills = {};
+                        skills.categories = data.cats;
+                        skills.unlockedCats = ko.observableArray([]);
+                        skills.unlockedCats.subscribe(function () {
+                            var passives = Lazy(data.cats).pluck('passives').flatten().where(function (passive) {
+                                return Lazy(skills.unlockedCats()).some(function (cat) {
+                                    return cat.catId === passive.categoryId;
+                                });
+                            }).toArray();
+
+                            self.selectedRace.notifySubscribers();
+
+                            skills.selectedPassives(passives);
+                        });
+
+                        skills.nbCatChoiceLeft = ko.pureComputed(function () {
+                            return data.maxNbCats - skills.unlockedCats().length;
+                        });
+
+                        skills.nbSkillChoiceLeft = ko.pureComputed(function () {
+                            var selected = skills.selectedSkills();
+                            var nbSkills = Lazy(selected).where(function (skill) {
+                                return !skill.isPassive && !skill.isRacial;
+                            }).toArray().length;
+
+                            return data.maxNbSkills - nbSkills;
+                        });
+
+                        skills.selectedSkills = ko.observableArray().extend({ notify: 'always' });
+                        skills.selectedPassives = ko.observableArray().extend({ notify: 'always' });
+
+                        skills.catAvailable = function (cat) {
+                            if (skills.unlockedCats.indexOf(cat) > -1)
+                                return true;
+
+                            return skills.nbCatChoiceLeft() > 0;
                         }
-                    }).toArray(),
-                    lang : race.Language
-                }
-            })
-            .sortBy('text').toArray();
 
-            self.categoriesAvailable = Lazy(data.CategoriesAvailable).map(function(cat) {
-                return {
-                    id: cat.Id,
-                    text: cat.Name,
-                    isMastery: cat.IsMastery,
-                    imageUrl : cat.ImageUrl
-                }
-            }).toArray();
-
-            self.languagesAvailable = ko.observableArray(Lazy(data.LanguagesAvailable).map(function(lng) {
-                return {
-                    id: lng.Id,
-                    text: lng.Text
-                }
-            }).toArray());
-
-            self.skillsAvailable = ko.observableArray(data.SkillsAvailable);
-
-            self.selectedRace = ko.observable();
-            self.selectedSkills = ko.observableArray([]);
-            self.selectedCategories = ko.observableArray([]);
-            self.selectedLegacies = ko.observableArray([]);
-            self.selectedLanguage = ko.observable();
-
-            self.selectedRace.subscribe(function (sel) {
-                self.languagesAvailable(Lazy(self.languagesAvailable()).where(function(lng) {
-                    return lng.id !== sel.lang.Id;
-                }).toArray());
-            });
-
-            self.selectedSkills.subscribe(function(sel) {
-                self.filterSkills();
-            });
-
-            self.selectedCategories.subscribe(function() {
-                self.filterSkills();
-            });
-
-            self.filterSkills = function() {
-                var filtered = Lazy(data.SkillsAvailable)
-                    .where(function(skill) {
-                        return Lazy(self.selectedCategories()).some(function(cat) {
-                                return cat.id === skill.CategoryId;
-                            }) &&
-                            !Lazy(self.selectedSkills())
-                            .some(function(sk) {
-                                return sk.skillId === skill.skillId;
+                        skills.isAvailable = function (skill) {
+                            var prereqCond = skill.prereq.length === 0 || Lazy(skill.prereq).some(function (pre) {
+                                return pre === Lazy(skills.selectedSkills()).some(function (sel) {
+                                    return sel.id === pre;
+                                });
                             });
-                    }).toArray();
 
-                self.skillsAvailable(filtered);
-            }
+                            var nbSkillsCond = skills.nbSkillChoiceLeft() > 0 || Lazy(skills.selectedSkills()).indexOf(skill) > -1;
 
-            self.formIsValid = ko.pureComputed(function() {
-                if (self.nbCat !== self.selectedCategories().length)
-                    return false;
+                            var catUnlockCond = !!Lazy(skills.unlockedCats()).find(function (unlocked) {
+                                return unlocked.catId === skill.categoryId;
+                            });
 
-                if (self.nbSkill !== self.selectedSkills().length)
-                    return false;
+                            return catUnlockCond && prereqCond && nbSkillsCond;
+                        };
 
-                return true;
+                        return skills;
+                    }
+                    
+                    self.errors = ko.observableArray();
+                    self.formIsValid = function () {
+                        var valid = true;
+                        self.errors([]);
+                        if (self.skills.nbCatChoiceLeft() !== 0) {
+                            valid = false;
+                            self.errors.push(self.skills.nbCatChoiceLeft() + " choix de catégories restants");
+                        }
+
+                        if (self.skills.nbSkillChoiceLeft() !== 0) {
+                            valid = false;
+                            self.errors.push(self.skills.nbSkillChoiceLeft() + " choix de compétences restants");
+                        }
+
+                        if (!self.selectedRace()) {
+                            valid = false;
+                            self.errors.push("Sélectionnez une race");
+                        }
+
+                        if (!self.selectedLanguage() && self.selectedRace.language !== 3) {
+                            valid = false;
+                            self.errors.push("Sélectionnez une langue supplémentaire");
+                        }
+
+                        if (!self.characterName()) {
+                            valid = false;
+                            self.errors.push("Nommez votre personnage");
+                        }
+                        return valid;
+                    };
+
+                    return self;
+                }
+
+                ko.applyBindings(model);
             });
-
-            return self;
-        }
-
-        
-        ko.applyBindings(model);
     })

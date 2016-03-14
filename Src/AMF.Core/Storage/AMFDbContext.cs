@@ -19,6 +19,7 @@ namespace AMF.Core.Storage
         public DbSet<LegacyTree> LegacyTrees { get; set; }
         public DbSet<Character> Characters { get; set; }
         public DbSet<Race> Races { get; set; }
+        public DbSet<SkillBonus> SkillBonuses { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

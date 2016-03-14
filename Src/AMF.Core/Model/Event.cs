@@ -7,6 +7,8 @@ namespace AMF.Core.Model
     {
         public DateTime Date { get; set; }
 
+        public DateTime? ClosedDate { get; set; }
+
         public int EventNumber { get; set; }
 
         public virtual List<Character> Attendees { get; set; }
@@ -15,9 +17,13 @@ namespace AMF.Core.Model
 
         public bool NextEvent { get; set; }
 
+        public bool WasCanceled { get; set; }
+
         public int NbOfMaxSkill()
         {
-            return Math.Max(EventNumber/3 + 1, 7);
+            int byThree = EventNumber/3;
+
+            return Math.Min(byThree +1, 7);
         }
     }
 }

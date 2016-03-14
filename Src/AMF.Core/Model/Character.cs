@@ -7,30 +7,30 @@ namespace AMF.Core.Model
 {
     public class Character : Entity
     {
-        public Player Player { get; set; }
+        public virtual Player Player { get; set; }
 
         public string Name { get; set; }
         
-        public List<Category> Categories { get; set; }
+        public virtual List<Category> Categories { get; set; }
 
-        public List<Skill> Skills { get; set; }
+        public virtual List<Skill> Skills { get; set; }
 
-        public List<Spell> Spells { get; set; }
+        public virtual List<Spell> Spells { get; set; }
 
-        public Race Race { get; set; }
+        public virtual Race Race { get; set; }
 
-        public Year Year { get; set; }
+        public virtual Year Year { get; set; }
 
-        public List<Event> Presences { get; set; }
+        public virtual List<Event> Presences { get; set; }
 
 
         public int Experience { get; set; }
 
         public string Title { get; set; }
 
-        public Legacy Legacy { get; set; }
+        public virtual Legacy Legacy { get; set; }
 
-        public List<Throphy> Throphies { get; set; }
+        public virtual List<Throphy> Throphies { get; set; }
 
 
         public int Influence { get; set; }
@@ -44,33 +44,10 @@ namespace AMF.Core.Model
             Throphies = new List<Throphy>();
         }
 
-        public int IsEligibleForNewCategory()
-        {
-            if (Categories.Count == 0)
-                return 1;
-
-            var nbPresence = Presences.Count + 1;
-
-            return Math.Max((nbPresence / 5) - Categories.Count, 3);
-        }
-
-        public int IsEligibleForNewSkill(Event currentEvent)
-        {
-            if (currentEvent.EventNumber == 0)
-                return 1;
-
-            return currentEvent.NbOfMaxSkill() - Skills.Count;
-        }
-
-        public int IsEligibleForNewLegacy()
-        {
-            return Experience / 5;
-        }
-
         public int GoldPiecesFromInfluence()
         {
             var racial = 0;
-            if (Race.Skills.Any(x => x.Bonus.Contains(Bonus.ExtraGoldFromInfluence)))
+            if (Race.Skills.Any(x => x.Bonus.Select(y => y.Bonus).Contains(Bonus.ExtraGoldFromInfluence)))
                 racial++;
 
             if (Influence >= 3)

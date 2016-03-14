@@ -5,7 +5,7 @@
     ViewBag.Title = "Index";
 }
 
-<h2>@Strings.PlayerList</h2>
+<h2>Liste des joueurs inscrits</h2>
 
 
 <table id="players" class="table">
@@ -24,7 +24,7 @@
         <tr>
             <td>@(playerViewModel.Username)</td>
             <td>@(playerViewModel.FirstName + " " + playerViewModel.LastName)</td>
-            <td>@(playerViewModel.DateOfBirth.HasValue ? playerViewModel.DateOfBirth.Value.AsAge() : Strings.NA)</td>
+            <td>@(playerViewModel.DateOfBirth.HasValue ? playerViewModel.DateOfBirth.Value.AsAge().ToString() : Strings.NA)</td>
             <td>@playerViewModel.CreationDate.ToShortDateString()</td>
             <td>
                 <a href="@Url.Action("Update", "Player", new {playerId = playerViewModel.Id})">@Strings.Edit</a>

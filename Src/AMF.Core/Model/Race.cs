@@ -10,5 +10,10 @@ namespace AMF.Core.Model
         public virtual List<Skill> Skills { get; set; }
 
         public virtual Language Language { get; set; }
+
+        public Race()
+        {
+            Skills = new List<Skill>();
+        }
     }
 }

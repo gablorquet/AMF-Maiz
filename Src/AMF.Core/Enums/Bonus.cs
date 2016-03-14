@@ -9,6 +9,8 @@
         HeavyArmorProf,
         HeavyWeaponProf,
         ThreeMinor,
-        TwoMajor
+        TwoMajor,
+        ExtraXP,
+        ExtraMajor
     }
 }

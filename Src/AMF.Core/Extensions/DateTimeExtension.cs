@@ -4,7 +4,7 @@ namespace AMF.Core.Extensions
 {
     public static class DateTimeExtension
     {
-        public static string AsAge(this DateTime date)
+        public static int AsAge(this DateTime date)
         {
             var today = DateTime.Today;
 
@@ -13,7 +13,7 @@ namespace AMF.Core.Extensions
             if (today.Date >= date.Date && today.Month >= date.Month)
                 age++;
 
-            return age.ToString();
+            return age;
         }
     }
 }

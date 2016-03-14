@@ -18,7 +18,12 @@
         @RenderBody()
     </div>
 
-    @Html.RenderRequireJsSetup(new RequireRendererConfiguration
+<hr/>
+<div class="col-xs-12">
+    <a href="@Url.Action("Index", "Dashboard")">Retourner à la page principale</a>
+</div>
+
+@Html.RenderRequireJsSetup(new RequireRendererConfiguration
     {
         // the url from where require.js will be loaded
         RequireJsUrl = Url.Content("~/Scripts/Components/RequireJS/require.js"),

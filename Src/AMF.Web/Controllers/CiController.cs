@@ -41,6 +41,18 @@ namespace AMF.Web.Controllers
             _session.Add(animateur);
             _session.Commit();
 
+            var joueur = new Player
+            {
+                FirstName = "Test",
+                LastName = "Test",
+                Email = "test@test.com",
+                Username = "Test",
+                DateOfBirth = new DateTime(2000,01,01)
+            };
+            _session.Add(joueur);
+            _session.Commit();
+
+
             var arcane = BuildArcane();
 
             var divine = BuildDivine();
@@ -52,8 +64,7 @@ namespace AMF.Web.Controllers
             var nature = BuildNature();
 
             var roublard = BuildRoublard();
-
-
+            
             var scenario = new Scenario();
             _session.Add(scenario);
             _session.Commit();
@@ -64,21 +75,30 @@ namespace AMF.Web.Controllers
                 Name = "2016",
                 Scenario = scenario,
                 PlayableCategories = cats,
-                PlayableRaces = BuildRaces(cats)
+                PlayableRaces = BuildRaces(cats),
+                Current = true
             };
+
+
+            var events = new List<Event>();
+            var currentDate = new DateTime(2016,05,06);
+            var endDate = new DateTime(2016,09, 09);
+            var index = 0;
+            while (currentDate < endDate)
+            {
+                events.Add(new Event
+                {
+                    Date = currentDate,
+                    EventNumber = index,
+                    NextEvent = index == 0
+                });
+
+                currentDate = currentDate.AddDays(7);
+                index++;
+            }
+            year.Events = events;
 
             _session.Add(year);
-            _session.Commit();
-
-
-            var newEvent = new Event
-            {
-                Year = year,
-                Date = new DateTime(2016, 01, 01),
-                EventNumber = 0,
-                NextEvent = true
-            };
-            year.Events.Add(newEvent);
             _session.Commit();
 
             return "Done";
@@ -102,7 +122,10 @@ namespace AMF.Web.Controllers
                     {
                         Name = "Port d'armure lourde",
                         IsRacial = true,
-                        Bonus = new List<Bonus> { Bonus.HeavyArmorProf }
+                        Bonus = new List<SkillBonus> { new SkillBonus
+                        {
+                         Bonus = Bonus.HeavyArmorProf    
+                        } }
                     },
                     new Skill
                     {
@@ -121,7 +144,10 @@ namespace AMF.Web.Controllers
                 {
                     new Skill
                     {
-                        Bonus = new List<Bonus> {Bonus.ExtraGoldFromInfluence},
+                        Bonus = new List<SkillBonus> {new SkillBonus
+                        {
+                            Bonus = Bonus.ExtraGoldFromInfluence
+                        }},
                         Name = "+1 Pièces d'or",
                         IsRacial = true
                     },
@@ -148,7 +174,10 @@ namespace AMF.Web.Controllers
                     new Skill
                     {
                         Name = "+3 Influence",
-                        Bonus = new List<Bonus> {Bonus.ExtraInfluence},
+                        Bonus = new List<SkillBonus> {new SkillBonus
+                        {
+                            Bonus = Bonus.ExtraInfluence
+                        }},
                         IsRacial = true
                     }
                 }
@@ -182,7 +211,13 @@ namespace AMF.Web.Controllers
                     new Skill
                     {
                         Name = "+6 Influence",
-                        Bonus = new List<Bonus> {Bonus.ExtraInfluence, Bonus.ExtraInfluence},
+                        Bonus = new List<SkillBonus> {new SkillBonus
+                        {
+                         Bonus   = Bonus.ExtraInfluence
+                        }, new SkillBonus
+                        {
+                         Bonus   = Bonus.ExtraInfluence
+                        }},
                         IsRacial = true
                     }
                 }
@@ -197,14 +232,23 @@ namespace AMF.Web.Controllers
                     new Skill
                     {
                         Name = "Port d'arme lourde",
-                        Bonus = new List<Bonus> {Bonus.HeavyWeaponProf},
+                        Bonus = new List<SkillBonus>
+                        {
+                            new SkillBonus
+                            {
+                                Bonus = Bonus.HeavyWeaponProf
+                            }
+                        },
                         IsRacial = true
                     },
                     new Skill
                     {
                         Name = "+1 PV",
                         IsRacial = true,
-                        Bonus = new List<Bonus> {Bonus.ExtraHP},
+                        Bonus = new List<SkillBonus> {new SkillBonus
+                        {
+                         Bonus   = Bonus.ExtraHP
+                        }},
                         Category = nat
                     }
                 }
@@ -224,7 +268,10 @@ namespace AMF.Web.Controllers
                     new Skill
                     {
                         Name = "+1 PV",
-                        Bonus = new List<Bonus> {Bonus.ExtraHP},
+                        Bonus = new List<SkillBonus> {new SkillBonus
+                        {
+                         Bonus   = Bonus.ExtraHP
+                        }},
                         IsRacial = true,
                         Category = chasse
                     }
@@ -240,13 +287,19 @@ namespace AMF.Web.Controllers
                     new Skill
                     {
                         Name = "+1 PV",
-                        Bonus = new List<Bonus> {Bonus.ExtraHP},
+                        Bonus = new List<SkillBonus> {new SkillBonus
+                        {
+                         Bonus   = Bonus.ExtraHP
+                        }},
                         IsRacial = true
                     },
                     new Skill
                     {
                         Name = "+1 Bâton mineur",
-                        Bonus = new List<Bonus> {Bonus.ExtraMinor},
+                        Bonus = new List<SkillBonus> {new SkillBonus
+                        {
+                         Bonus   = Bonus.ExtraMinor
+                        }},
                         IsRacial = true,
                         Category = arcane
                     }
@@ -274,7 +327,10 @@ namespace AMF.Web.Controllers
                 new Skill //0
                 {
                     Name = "+1 Bâton Mineur",
-                    Bonus = new List<Bonus> {Bonus.ExtraMinor}
+                    Bonus = new List<SkillBonus> {new SkillBonus
+                    {
+                     Bonus = Bonus.ExtraMinor   
+                    }}
                 },
                 new Skill //1
                 {
@@ -283,22 +339,34 @@ namespace AMF.Web.Controllers
                 new Skill //2
                 {
                     Name  = "Sorts Mineurs 1",
-                    Bonus = new List<Bonus> { Bonus.ThreeMinor}
+                    Bonus = new List<SkillBonus> { new SkillBonus
+                    {
+                     Bonus   = Bonus.ThreeMinor
+                    }}
                 },
                 new Skill //3
                 {
                     Name  = "Sorts Mineurs 2",
-                    Bonus = new List<Bonus> { Bonus.ThreeMinor}
+                    Bonus = new List<SkillBonus> { new SkillBonus
+                    {
+                     Bonus   = Bonus.ThreeMinor
+                    }}
                 },
                 new Skill //4
                 {
                     Name  = "Sorts Majeurs 1",
-                    Bonus = new List<Bonus> { Bonus.TwoMajor}
+                    Bonus = new List<SkillBonus> { new SkillBonus
+                    {
+                        Bonus = Bonus.TwoMajor
+                    }}
                 },
                 new Skill //5
                 {
                     Name  = "Sorts Majeurs 2",
-                    Bonus = new List<Bonus> { Bonus.TwoMajor}
+                    Bonus = new List<SkillBonus> { new SkillBonus
+                    {
+                        Bonus = Bonus.TwoMajor
+                    }}
                 },
                 new Skill //6
                 {
@@ -389,7 +457,7 @@ namespace AMF.Web.Controllers
             var divine = new Category
             {
                 Name = "Divin",
-                IsMastery = false
+                IsMastery = false,
             };
 
             var divineSkills = new List<Skill>
@@ -405,7 +473,10 @@ namespace AMF.Web.Controllers
                 new Skill
                 {
                     Name = "Sorts Mineurs 1", //2
-                    Bonus = new List<Bonus>{Bonus.ThreeMinor}
+                    Bonus = new List<SkillBonus>{new SkillBonus
+                    {
+                     Bonus = Bonus.ThreeMinor   
+                    }}
                 },
                 new Skill
                 {
@@ -418,12 +489,18 @@ namespace AMF.Web.Controllers
                 new Skill
                 {
                     Name    = "Sorts Majeurs 1", //5
-                    Bonus = new List<Bonus>{Bonus.TwoMajor}
+                    Bonus = new List<SkillBonus>{new SkillBonus
+                    {
+                     Bonus   = Bonus.TwoMajor
+                    }}
                 },
                 new Skill
                 {
                     Name = "Sorts Majeurs 2", //6
-                    Bonus = new List<Bonus>{Bonus.TwoMajor}
+                    Bonus = new List<SkillBonus>{new SkillBonus
+                    {
+                     Bonus   = Bonus.TwoMajor
+                    }}
                 },
                 new Skill
                 {
@@ -438,7 +515,18 @@ namespace AMF.Web.Controllers
                 new Skill
                 {
                     Name = "Grand Prêtre", //9
-                    ArmorRestricted = true
+                    ArmorRestricted = true,
+                    Bonus = new List<SkillBonus>
+                    {
+                        new SkillBonus
+                        {
+                            Bonus = Bonus.ExtraMinor
+                        },
+                        new SkillBonus
+                        {
+                            Bonus = Bonus.ExtraMajor
+                        }
+                    }
                 }
 
             };
@@ -499,7 +587,10 @@ namespace AMF.Web.Controllers
                 new Skill
                 {
                     Name = "Sorts Mineurs 1", //1
-                    Bonus = new List<Bonus>{Bonus.ThreeMinor}
+                    Bonus = new List<SkillBonus>{new SkillBonus
+                    {
+                     Bonus   = Bonus.ThreeMinor
+                    }}
                 },
                 new Skill
                 {
@@ -508,7 +599,10 @@ namespace AMF.Web.Controllers
                 new Skill
                 {
                     Name = "Sorts Mineurs 2", //3
-                    Bonus = new List<Bonus>{Bonus.ThreeMinor}
+                    Bonus = new List<SkillBonus>{ new SkillBonus
+                    {
+                        Bonus = Bonus.ThreeMinor
+                    }}
                 },
                 new Skill
                 {
@@ -517,12 +611,18 @@ namespace AMF.Web.Controllers
                 new Skill
                 {
                     Name = "Sorts Majeurs 1", //5
-                    Bonus = new List<Bonus>{Bonus.TwoMajor}
+                    Bonus = new List<SkillBonus>{new SkillBonus
+                    {
+                        Bonus = Bonus.TwoMajor
+                    }}
                 },
                 new Skill
                 {
                     Name = "Sorts Majeurs 2", //6
-                    Bonus = new List<Bonus>{Bonus.TwoMajor}
+                    Bonus = new List<SkillBonus>{new SkillBonus
+                    {
+                     Bonus   = Bonus.TwoMajor
+                    }}
                 },
                 new Skill
                 {
@@ -669,7 +769,7 @@ namespace AMF.Web.Controllers
             {
                 martialSkill[1]
             };
-            
+
 
             martialSkill[4].Prerequisites = new List<Skill>
             {
