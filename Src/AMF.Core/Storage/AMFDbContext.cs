@@ -24,33 +24,27 @@ namespace AMF.Core.Storage
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Skill>()
-           .HasMany(p => p.Prerequisites)
-           .WithMany()
-           .Map(m =>
-           {
-               m.MapLeftKey("parent_id");
-               m.MapRightKey("child_id");
-               m.ToTable("skill_prerequisites");
-           });           
+                .HasMany(x => x.Prerequisites)
+                .WithMany()
+                .Map(x =>
+                {
+                    x.MapLeftKey("Skill_Id");
+                    x.MapRightKey("Prereq_Id");
+                    x.ToTable("Skill_Prereq");
+                });            
             
-            modelBuilder.Entity<Year>()
-           .HasMany(p => p.PlayableCategories)
-           .WithMany()
-           .Map(m =>
-           {
-               m.MapLeftKey("year_id");
-               m.MapRightKey("category_id");
-               m.ToTable("year_category");
-           });
-            modelBuilder.Entity<Year>()
-           .HasMany(p => p.PlayableRaces)
-           .WithMany()
-           .Map(m =>
-           {
-               m.MapLeftKey("year_id");
-               m.MapRightKey("race_id");
-               m.ToTable("year_race");
-           });
+            modelBuilder.Entity<LegacySkill>()
+                .HasMany(x => x.Prerequisites)
+                .WithMany()
+                .Map(x =>
+                {
+                    x.MapLeftKey("Legacy_Skill_Id");
+                    x.MapRightKey("Legacy_Prereq_Id");
+                    x.ToTable("Legacy_Skill_Prereq");
+                });
+
+            modelBuilder.Entity<Character>()
+                .HasOptional(x => x.Legacy);
         }
     }
 }

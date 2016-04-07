@@ -89,6 +89,12 @@
                             if (skills.unlockedCats.indexOf(cat) > -1)
                                 return true;
 
+                            if(cat.isMastery && Lazy(skills.unlockedCats()).
+                                every(function (c) { return c.id !== cat.mastery;
+                            })) {
+                                return false;
+                            }
+
                             return skills.nbCatChoiceLeft() > 0;
                         }
 
@@ -110,7 +116,25 @@
 
                         return skills;
                     }
-                    
+
+                    self.legacySkills = ko.observableArray();
+                    self.legacyAvail = function(legacySkill) {
+
+                        var hasBonusSkills = Lazy(self.selectedRace().skills)
+                            .find(function(r) {
+                                return Lazy(r.bonus).some(function(b) {
+                                    return b.Bonus === 8;
+                                });
+                            });
+                        if (!hasBonusSkills)
+                            return false;
+
+                        if (!!legacySkill.prerequisite)
+                            return false;
+
+                        return true;
+                    }
+
                     self.errors = ko.observableArray();
                     self.formIsValid = function () {
                         var valid = true;

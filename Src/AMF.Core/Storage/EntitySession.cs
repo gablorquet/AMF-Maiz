@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Linq.Expressions;
 using AMF.Core.Model;
@@ -87,6 +88,7 @@ namespace AMF.Core.Storage
                 {
                     _context.Database.ExecuteSqlCommand(string.Format("DELETE FROM {0}", tableNames.ElementAt(i % tableNames.Count)));
                     tableNames.RemoveAt(i % tableNames.Count);
+
                     i = 0;
                 }
                 catch { } // ignore errors as these are expected due to linked foreign key data             

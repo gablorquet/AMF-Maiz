@@ -54,13 +54,32 @@
                     <!-- ko foreach : { data : self.skills.categories, as: 'cat'}-->
                     <div role="tabpanel" class="tab-pane" data-bind="attr : {id : $data.name }">
 
-                        <input type="checkbox" data-bind="value : cat, checked: self.skills.unlockedCats, enable: self.skills.catAvailable(cat) " />
-                        Unlock<br />
+                        <div class="col-md-6">
+                            <h4>Compétences</h4>
 
-                        <!-- ko foreach : { data : cat.skills, as: 'skill'} -->
-                        <input type="checkbox" data-bind="value : skill, checked: self.skills.selectedSkills, enable : self.skills.isAvailable(skill)" />
-                        <!--ko text : skill.name--><!--/ko--><br />
-                        <!--/ko-->
+                            <input type="checkbox"  data-bind="value : cat, checked: self.skills.unlockedCats, enable: self.skills.catAvailable(cat) "/>
+                            Sélectionner<br/>
+
+                            <input type="checkbox" data-bind="value : cat.mastery, checked: self.skills.unlockedCats, enable: self.skills.catAvailable(cat.mastery) "/>
+                            Maîtrise<br/>
+
+                            <!-- ko foreach : { data : cat.skills, as: 'skill'} -->
+                            <input type="checkbox" data-bind="value : skill, checked: self.skills.selectedSkills, enable : self.skills.isAvailable(skill)"/>
+                            <!--ko text : skill.name--><!--/ko--><br/>
+                            <!--/ko-->
+                        </div>
+                        <div class="col-md-6">
+                            <h4>Héritage</h4>
+                            <!-- ko foreach : { data : cat.legacies, as: 'legacy'}-->
+                            <div class="col-md-6">
+                                <!-- ko foreach : { data : legacy.skills, as: 'legacySkill' } -->
+                                <input type="checkbox"
+                                       data-bind="enable : self.legacyAvail(legacySkill), checked: self.legacySkills, value : legacySkill"/>
+                                <!-- ko text : legacySkill.name --><!--/ko--><br/>
+                                <!-- /ko-->
+                            </div>
+                            <!-- /ko-->
+                        </div>
                     </div>
                     <!-- /ko -->
                 </div>
@@ -92,7 +111,7 @@
         <div class="row">
             <label>Compétences Raciales</label>
             <ul>
-                <!-- ko foreach : self.skills.selectedRacials()-->
+                <!-- ko foreach : self.selectedRacials()-->
                 <li><!-- ko text : $data.name--> <!--/ko--></li>
                 <!-- /ko-->
             </ul>
@@ -127,4 +146,6 @@
 }
 
 <!-- /ko -->
+
+
 

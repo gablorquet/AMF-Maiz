@@ -1,0 +1,39 @@
+﻿@using AMF.Web.Ressources
+@model List<AMF.Core.Model.Event>
+
+    @{
+    ViewBag.Title = "Index";
+    }
+
+    <h2>Liste des soirées</h2>
+
+
+    <table id="events" class="table">
+        <thead>
+            <tr>
+                <th>Soirée #</th>
+                <th>Date</th>
+                <th>Nb présences</th>
+                <th>@Strings.Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var ev in Model)
+            {
+            <tr>
+                <td>@(ev.EventNumber)</td>
+                <td>@(ev.Date.ToShortDateString())</td>
+                <td>@(ev.ClosedDate.HasValue ? ev.Attendees.Count.ToString() : "N/A")</td>
+                <td>
+                    <a href="@Url.Action("CloseEvent", "Event", new {eventId = ev.Id})" style="margin-right: 15px; font-size: 1.1em">
+                        <i class="fa fa-sign-out"></i>
+                    </a>
+
+                    <a href="@Url.Action("CancelEvent", "Event" , new {eventid=ev.Id})" style="margin-right: 15px; font-size: 1.1em">
+                        <i class="fa fa-times"></i>
+                    </a>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>

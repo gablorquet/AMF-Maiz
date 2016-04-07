@@ -114,37 +114,9 @@
     <Compile Include="Extensions\DateTimeExtension.cs" />
     <Compile Include="Extensions\EnumExtension.cs" />
     <Compile Include="Extensions\StringsExtensions.cs" />
-    <Compile Include="Migrations\201512300635189_Init.cs" />
-    <Compile Include="Migrations\201512300635189_Init.Designer.cs">
-      <DependentUpon>201512300635189_Init.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201512301724403_YearRelation.cs" />
-    <Compile Include="Migrations\201512301724403_YearRelation.Designer.cs">
-      <DependentUpon>201512301724403_YearRelation.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201512302026307_CategorySkillRelation.cs" />
-    <Compile Include="Migrations\201512302026307_CategorySkillRelation.Designer.cs">
-      <DependentUpon>201512302026307_CategorySkillRelation.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201602270228233_PostFormatSetup.cs" />
-    <Compile Include="Migrations\201602270228233_PostFormatSetup.Designer.cs">
-      <DependentUpon>201602270228233_PostFormatSetup.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201602292318466_Fixed-Bonuses.cs" />
-    <Compile Include="Migrations\201602292318466_Fixed-Bonuses.Designer.cs">
-      <DependentUpon>201602292318466_Fixed-Bonuses.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201602292322576_Re-Fixed-Bonus.cs" />
-    <Compile Include="Migrations\201602292322576_Re-Fixed-Bonus.Designer.cs">
-      <DependentUpon>201602292322576_Re-Fixed-Bonus.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201603061924493_EventClosure.cs" />
-    <Compile Include="Migrations\201603061924493_EventClosure.Designer.cs">
-      <DependentUpon>201603061924493_EventClosure.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201603062002544_ScenarioName.cs" />
-    <Compile Include="Migrations\201603062002544_ScenarioName.Designer.cs">
-      <DependentUpon>201603062002544_ScenarioName.cs</DependentUpon>
+    <Compile Include="Migrations\201604071616445_Init.cs" />
+    <Compile Include="Migrations\201604071616445_Init.Designer.cs">
+      <DependentUpon>201604071616445_Init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\Category.cs" />
@@ -167,29 +139,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201512300635189_Init.resx">
-      <DependentUpon>201512300635189_Init.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201512301724403_YearRelation.resx">
-      <DependentUpon>201512301724403_YearRelation.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201512302026307_CategorySkillRelation.resx">
-      <DependentUpon>201512302026307_CategorySkillRelation.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201602270228233_PostFormatSetup.resx">
-      <DependentUpon>201602270228233_PostFormatSetup.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201602292318466_Fixed-Bonuses.resx">
-      <DependentUpon>201602292318466_Fixed-Bonuses.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201602292322576_Re-Fixed-Bonus.resx">
-      <DependentUpon>201602292322576_Re-Fixed-Bonus.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201603061924493_EventClosure.resx">
-      <DependentUpon>201603061924493_EventClosure.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201603062002544_ScenarioName.resx">
-      <DependentUpon>201603062002544_ScenarioName.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201604071616445_Init.resx">
+      <DependentUpon>201604071616445_Init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -7,13 +7,13 @@ namespace AMF.Core.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class CategorySkillRelation : IMigrationMetadata
+    public sealed partial class Init : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(CategorySkillRelation));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Init));
         
         string IMigrationMetadata.Id
         {
-            get { return "201512302026307_CategorySkillRelation"; }
+            get { return "201604071616445_Init"; }
         }
         
         string IMigrationMetadata.Source

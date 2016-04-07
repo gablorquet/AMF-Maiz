@@ -47,42 +47,41 @@ namespace AMF.Web.Controllers
                 LastName = "Test",
                 Email = "test@test.com",
                 Username = "Test",
-                DateOfBirth = new DateTime(2000,01,01)
+                DateOfBirth = new DateTime(2000, 01, 01)
             };
             _session.Add(joueur);
             _session.Commit();
 
+            BuildArcane();
+            BuildDivine();
+            BuildNature();
+            BuildMartial();
+            BuildChasse();
+            BuildRoublard();
 
-            var arcane = BuildArcane();
+            BuildRaces(_session.Set<Category>().ToList());
 
-            var divine = BuildDivine();
-
-            var martial = BuildMartial();
-
-            var chasse = BuildChasse();
-
-            var nature = BuildNature();
-
-            var roublard = BuildRoublard();
-            
-            var scenario = new Scenario();
-            _session.Add(scenario);
-            _session.Commit();
-
-            var cats = new List<Category> { arcane, divine, martial, chasse, nature, roublard };
-            var year = new Year
+            var sc = new Scenario
             {
-                Name = "2016",
-                Scenario = scenario,
-                PlayableCategories = cats,
-                PlayableRaces = BuildRaces(cats),
-                Current = true
+                Name = "Guerre Mazérienne",
+                Years = new List<Year>
+                {
+                    new Year
+                    {
+                        Name = "2016",
+                        Current = true,
+                        PlayableCategories = _session.Set<Category>().ToList(),
+                        PlayableRaces = _session.Set<Race>().ToList()
+                    }
+                }
             };
 
+            _session.Add(sc);
+            _session.Commit();
 
             var events = new List<Event>();
-            var currentDate = new DateTime(2016,05,06);
-            var endDate = new DateTime(2016,09, 09);
+            var currentDate = new DateTime(2016, 05, 06);
+            var endDate = new DateTime(2016, 09, 09);
             var index = 0;
             while (currentDate < endDate)
             {
@@ -96,15 +95,16 @@ namespace AMF.Web.Controllers
                 currentDate = currentDate.AddDays(7);
                 index++;
             }
-            year.Events = events;
 
-            _session.Add(year);
+            var yr = _session.Set<Year>().First();
+            yr.Events = events;
+
             _session.Commit();
 
             return "Done";
         }
 
-        private List<Race> BuildRaces(List<Category> cats)
+        private void BuildRaces(List<Category> cats)
         {
             var arcane = cats.First(x => x.Name == "Arcane");
             var divine = cats.First(x => x.Name == "Divin");
@@ -115,7 +115,7 @@ namespace AMF.Web.Controllers
 
             var nains = new Race
             {
-                Name = "Nains",
+                Name = "Nain",
                 Skills = new List<Skill>
                 {
                     new Skill
@@ -154,6 +154,10 @@ namespace AMF.Web.Controllers
                     new Skill
                     {
                         Name = "Polyvalence",
+                        Bonus = new List<SkillBonus>
+                        {
+                            new SkillBonus { Bonus = Bonus.ExtraXP }
+                        },
                         IsRacial = true
                     },
                 },
@@ -254,29 +258,29 @@ namespace AMF.Web.Controllers
                 }
             };
 
-            var tarente = new Race
-            {
-                Name = "Tarente",
-                Language = Language.Profondeur,
-                Skills = new List<Skill>
-                {
-                    new Skill
-                    {
-                        Name = "Nécrophage",
-                        IsRacial = true
-                    },
-                    new Skill
-                    {
-                        Name = "+1 PV",
-                        Bonus = new List<SkillBonus> {new SkillBonus
-                        {
-                         Bonus   = Bonus.ExtraHP
-                        }},
-                        IsRacial = true,
-                        Category = chasse
-                    }
-                }
-            };
+            //var tarente = new Race
+            //{
+            //    Name = "Tarente",
+            //    Language = Language.Profondeur,
+            //    Skills = new List<Skill>
+            //    {
+            //        new Skill
+            //        {
+            //            Name = "Nécrophage",
+            //            IsRacial = true
+            //        },
+            //        new Skill
+            //        {
+            //            Name = "+1 PV",
+            //            Bonus = new List<SkillBonus> {new SkillBonus
+            //            {
+            //             Bonus   = Bonus.ExtraHP
+            //            }},
+            //            IsRacial = true,
+            //            Category = chasse
+            //        }
+            //    }
+            //};
 
             var duneen = new Race
             {
@@ -306,10 +310,14 @@ namespace AMF.Web.Controllers
                 }
             };
 
-            return new List<Race>
-            {
-                nains, halfelin, humains, duneen, drake, elfe, orc, tarente
-            };
+            _session.Add(nains);
+            _session.Add(halfelin);
+            _session.Add(humains);
+            _session.Add(duneen);
+            _session.Add(drake);
+            _session.Add(elfe);
+            _session.Add(orc);
+            _session.Add(orc);
 
         }
 
@@ -318,9 +326,68 @@ namespace AMF.Web.Controllers
             var arcane = new Category
             {
                 Name = "Arcane",
-                IsMastery = false
             };
 
+            var mastery = new Category
+            {
+                Name = "Arcane (Maîtrise)",
+                Skills = new List<Skill>
+                {
+                    new Skill
+                    {
+                        Name = "Posture : Mage de Guerre",
+                        IsPassive = true,
+                    }
+                }
+            };
+            arcane.Mastery = mastery;
+
+            var legacy = new List<LegacyTree>
+            {
+                new LegacyTree
+                {
+                    Skills = new List<LegacySkill>
+                    {
+                        new LegacySkill
+                        {
+                            Name = "Test 1"
+                        },
+                        new LegacySkill
+                        {
+                            Name = "Test 2"
+                        },
+                        new LegacySkill
+                        {
+                            Name = "Test 3"
+                        }
+                    }
+                },    new LegacyTree
+                {
+                    Skills = new List<LegacySkill>
+                    {
+                        new LegacySkill
+                        {
+                            Name = "Test 4"
+                        },
+                        new LegacySkill
+                        {
+                            Name = "Test 5"
+                        },
+                        new LegacySkill
+                        {
+                            Name = "Test 6"
+                        }
+                    }
+                }
+            };
+
+            legacy.First().Skills.ElementAt(1).Prerequisites = new List<LegacySkill> { legacy.First().Skills.ElementAt(0) };
+            legacy.First().Skills.ElementAt(2).Prerequisites = new List<LegacySkill> { legacy.First().Skills.ElementAt(1) };
+            
+            legacy.Last().Skills.ElementAt(1).Prerequisites = new List<LegacySkill> { legacy.Last().Skills.ElementAt(0) };
+            legacy.Last().Skills.ElementAt(2).Prerequisites = new List<LegacySkill> { legacy.Last().Skills.ElementAt(1) };
+
+            arcane.Legacies = legacy;
 
             var arcaneskills = new List<Skill>
             {
@@ -330,7 +397,7 @@ namespace AMF.Web.Controllers
                     Bonus = new List<SkillBonus> {new SkillBonus
                     {
                      Bonus = Bonus.ExtraMinor   
-                    }}
+                    }},
                 },
                 new Skill //1
                 {
@@ -399,7 +466,6 @@ namespace AMF.Web.Controllers
                 }
             };
 
-
             arcaneskills[9].Prerequisites = new List<Skill>
             {
                     arcaneskills[5],
@@ -446,6 +512,7 @@ namespace AMF.Web.Controllers
             };
 
             arcane.Skills = arcaneskills;
+            
             _session.Add(arcane);
             _session.Commit();
 
@@ -457,7 +524,25 @@ namespace AMF.Web.Controllers
             var divine = new Category
             {
                 Name = "Divin",
-                IsMastery = false,
+                Mastery = new Category
+                {
+                    Name = "Divin (Maîtrise)",
+                    Skills = new List<Skill>
+                    {
+                        new Skill
+                        {
+                            Name = "+1 Point de Destin",
+                            IsPassive = true,
+                            Bonus = new List<SkillBonus>
+                            {
+                                new SkillBonus
+                                {
+                                    Bonus = Bonus.ExtraDestin
+                                }
+                            }
+                        }
+                    }
+                }
             };
 
             var divineSkills = new List<Skill>
@@ -567,6 +652,10 @@ namespace AMF.Web.Controllers
 
             divine.Skills = divineSkills;
 
+
+            _session.Add(divine);
+            _session.Commit();
+
             return divine;
         }
 
@@ -575,7 +664,18 @@ namespace AMF.Web.Controllers
             var nature = new Category
             {
                 Name = "Naturalisme",
-                IsMastery = false
+                Mastery = new Category
+                {
+                    Name = "Naturalisme (Maîtrise)",
+                    Skills = new List<Skill>
+                    {
+                        new Skill
+                        {
+                            Name = "Ritualiste",
+                            IsPassive = true,
+                        }
+                    }
+                }
             };
 
             var natSkills = new List<Skill>
@@ -684,6 +784,10 @@ namespace AMF.Web.Controllers
 
             nature.Skills = natSkills;
 
+
+            _session.Add(nature);
+            _session.Commit();
+
             return nature;
         }
 
@@ -692,7 +796,25 @@ namespace AMF.Web.Controllers
             var martial = new Category
             {
                 Name = "Martial",
-                IsMastery = false
+                Mastery = new Category
+                {
+                    Name = "Martial (Maîtrise)",
+                    Skills = new List<Skill>
+                    {
+                        new Skill
+                        {
+                            Name = "+1 PV",
+                            Bonus = new List<SkillBonus>
+                            {
+                                new SkillBonus
+                                {
+                                    Bonus = Bonus.ExtraHP
+                                }
+                            },
+                            IsPassive = true
+                        }
+                    }
+                }
             };
 
             var martialSkill = new List<Skill>
@@ -757,23 +879,23 @@ namespace AMF.Web.Controllers
                 }
             };
 
-            martialSkill[4].Prerequisites = new List<Skill>
+            martialSkill[0].Prerequisites = new List<Skill>
             {
-                martialSkill[3]
+                martialSkill[1]
             };
-            martialSkill[3].Prerequisites = new List<Skill>
+            martialSkill[1].Prerequisites = new List<Skill>
             {
                 martialSkill[2]
             };
             martialSkill[2].Prerequisites = new List<Skill>
             {
-                martialSkill[1]
+                martialSkill[3]
             };
 
 
             martialSkill[4].Prerequisites = new List<Skill>
             {
-                martialSkill[3]
+                martialSkill[5]
             };
             martialSkill[5].Prerequisites = new List<Skill>
             {
@@ -785,19 +907,22 @@ namespace AMF.Web.Controllers
             };
 
 
-            martialSkill[11].Prerequisites = new List<Skill>
-            {
-                martialSkill[10]
-            };
-            martialSkill[10].Prerequisites = new List<Skill>
+            martialSkill[8].Prerequisites = new List<Skill>
             {
                 martialSkill[9]
             };
             martialSkill[9].Prerequisites = new List<Skill>
             {
-                martialSkill[8]
+                martialSkill[10]
+            };
+            martialSkill[10].Prerequisites = new List<Skill>
+            {
+                martialSkill[11]
             };
             martial.Skills = martialSkill;
+
+            _session.Add(martial);
+            _session.Commit();
 
             return martial;
         }
@@ -807,7 +932,18 @@ namespace AMF.Web.Controllers
             var chasse = new Category
             {
                 Name = "Chasse",
-                IsMastery = false
+                Mastery = new Category
+                {
+                    Name = "Chasse (Maîtrise)",
+                    Skills = new List<Skill>
+                    {
+                        new Skill
+                        {
+                            Name = "Maître Chasseur",
+                            IsPassive = true
+                        }
+                    }
+                }
             };
 
             var chasseSkill = new List<Skill>
@@ -907,6 +1043,9 @@ namespace AMF.Web.Controllers
 
             chasse.Skills = chasseSkill;
 
+            _session.Add(chasse);
+            _session.Commit();
+
             return chasse;
         }
 
@@ -915,7 +1054,18 @@ namespace AMF.Web.Controllers
             var roublard = new Category
             {
                 Name = "Roublardise",
-                IsMastery = false
+                Mastery = new Category
+                {
+                    Name = "Roublardise (Maîtrise)",
+                    Skills = new List<Skill>
+                    {
+                        new Skill
+                        {
+                            Name = "Maître des Poisons",
+                            IsPassive = true
+                        }
+                    }
+                }
             };
 
             var rogueSkill = new List<Skill>
@@ -1014,6 +1164,9 @@ namespace AMF.Web.Controllers
             };
 
             roublard.Skills = rogueSkill;
+
+            _session.Add(roublard);
+            _session.Commit();
 
             return roublard;
         }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using AMF.Core.Enums;
 
 namespace AMF.Core.Model
@@ -7,7 +8,10 @@ namespace AMF.Core.Model
     {
         public string Name { get; set; }
 
+        [NotMapped]
         public virtual Category Category { get; set; }
+
+        public Race Race { get; set; }
 
         public virtual List<Skill> Prerequisites { get; set; }
 

@@ -11,6 +11,7 @@
         ThreeMinor,
         TwoMajor,
         ExtraXP,
-        ExtraMajor
+        ExtraMajor,
+        ExtraDestin
     }
 }

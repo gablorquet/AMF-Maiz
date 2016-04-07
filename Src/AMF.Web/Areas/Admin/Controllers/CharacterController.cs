@@ -32,7 +32,8 @@ namespace AMF.Web.Areas.Admin.Controllers
                 .Where(x => x.Year.Current)
                 .ToList();
 
-            var models = chars.Where(x => !currentEvent.Attendees.Select(y => y.Id).Contains(x.Id))
+            var models = chars
+                .Where(x => !currentEvent.Attendees.Select(y => y.Id).Contains(x.Id))
                 .Select(x => new CharacterViewModel(x)).ToList();
 
             RequireJsOptions.Add("eventNumber", currentEvent.EventNumber);
@@ -93,7 +94,7 @@ namespace AMF.Web.Areas.Admin.Controllers
                 Year = currentEvent.Year,
                 Presences = new List<Event> { currentEvent },
                 Influence = 1 + (race.Skills.SelectMany(x => x.Bonus).Select(w => w.Bonus).Count(x => x == Bonus.ExtraInfluence) * 3),
-                Experience = 1 + (race.Skills.SelectMany(x => x.Bonus).Select(w => w.Bonus).Count(x => x == Bonus.ExtraXP))
+                Experience = 1 + (race.Skills.SelectMany(x => x.Bonus).Select(w => w.Bonus).Count(x => x == Bonus.ExtraXP)*5) - (data.SelectedLegacySkills.Count * 5)
             };
 
             _session.Add(character);
@@ -129,8 +130,20 @@ namespace AMF.Web.Areas.Admin.Controllers
         {
             var character = _session.SingleById<Character>(data.CharacterId);
 
+            var skills = _session.Set<Skill>()
+                .Where(x => data.SelectedSkills.Contains(x.Id))
+                .ToList();
 
-            return View("Debriefing", new DebriefingViewModel(new Character()));
+            character.Skills = skills;
+
+            var cats = _session.Set<Category>()
+                .Where(x => data.SelectedCategories.Contains(x.Id))
+                .ToList();
+            character.Categories = cats;
+
+            _session.Commit();
+
+            return View("Debriefing", new DebriefingViewModel(character));
         }
 
         public JsonResult GetDataForCurrentEvent()
@@ -144,6 +157,23 @@ namespace AMF.Web.Areas.Admin.Controllers
                 {
                     catId = x.Id,
                     name = x.Name,
+                    mastery = new {
+                        id = x.Mastery.Id,
+                        name = x.Mastery.Name,
+                        isMastery = x.Id,
+                        skills = x.Mastery.Skills.Select(y => new
+                        {
+                            id = y.Id,
+                            name = y.Name,
+                            description = "",
+                            bonus = y.Bonus,
+                            isPassive = y.IsPassive,
+                            isLegacy = y.IsLegacy,
+                            armorRestricted = y.ArmorRestricted,
+                            prereq = y.Prerequisites.Select(z => z.Id).ToList(),
+                            categoryId = y.Category.Id
+                        }).ToList(),
+                    },
                     skills = x.Skills.Where(z => !z.IsPassive && !z.IsLegacy && !z.IsRacial).Select(y => new
                     {
                         id = y.Id,
@@ -167,6 +197,19 @@ namespace AMF.Web.Areas.Admin.Controllers
                         prereq = y.Prerequisites.Select(z => z.Id).ToList(),
                         categoryId = y.Category.Id
                     }).ToList(),
+                    legacies = x.Legacies.Select(y => new
+                    {
+                        id = y.Id,
+                        skills = y.Skills.Select(z => new 
+                        {
+                            id = z.Id,
+                            prerequisites = z.Prerequisites.Select(w => w.Id).ToList(),
+                            name = z.Name,
+                            cost = z.Cost,
+                            description = z.Description
+
+                        }).ToList()
+                    }).ToList()
                 }).ToList();
             var races = currentEvent.Year.PlayableRaces.Select(x => new
             {
@@ -179,7 +222,7 @@ namespace AMF.Web.Areas.Admin.Controllers
                     name = y.Name,
                     description = "",
                     bonus = y.Bonus,
-                    category = y.Category != null ? y.Category.Id.ToString() : "",
+                    category = y.Category != null ? y.Category.Id : 0,
                     isRacial = true,
                     armorRestricted = y.ArmorRestricted
                 })

@@ -1,0 +1,121 @@
+﻿@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Modifier un personnage</h2>
+
+
+<!-- ko with : $root.Update -->
+@using (Html.BeginForm("Update", "Character"))
+{
+<div class="col-md-9">
+
+    <div class="row">
+        <div class="col-md-4">
+            <label>Nom du personnage</label>
+        </div>
+        <div class="col-md-4">
+            <input class="form-control" type="text" disabled="disabled" data-bind="value : name" />
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <label>Race</label>
+        </div>
+        <div class="col-md-4">
+            <input class="form-control" type="text" disabled="disabled" data-bind="value : selectedRace.name" />
+        </div>
+    </div>
+
+    <div class="row form-group">
+        <div class="col-md-12">
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <!-- ko foreach : self.categories-->
+                <li role="presentation">
+                    <a role="tab" data-toggle="tab"
+                       data-bind="attr: {href : '#' + $data.name }, text : $data.name"></a>
+                </li>
+                <!-- /ko -->
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <!-- ko foreach : { data : self.categories, as: 'cat'}-->
+                <div role="tabpanel" class="tab-pane" data-bind="attr : {id : $data.name }">
+
+                    <input type="checkbox" data-bind="value : cat, checked: self.unlockedCats, enable: self.catAvailable(cat) " />
+                    Unlock<br />
+
+                    <!-- ko foreach : { data : cat.skills, as: 'skill'} -->
+                    <input type="checkbox" data-bind="value : skill, checked: self.selectedSkills, enable : self.isAvailable(skill)" />
+                    <!--ko text : skill.name--><!--/ko--><br />
+                    <!--/ko-->
+                </div>
+                <!-- /ko -->
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+    <div class="col-md-3">
+        <!-- ko if : self.errors().length > 0-->
+        <div class="row" style="color: red">
+            <label>Éléments manquants</label>
+            <ul>
+                <!-- ko foreach : self.errors() -->
+                <li><!-- ko text : $data--><!--/ko--></li>
+                <!-- /ko-->
+            </ul>
+        </div>
+        <!--/ko-->
+
+        <div class="row">
+            <label>Compétences passives</label>
+            <ul>
+                <!-- ko foreach : self.selectedPassives()-->
+                <li><!-- ko text : $data.name--> <!--/ko--></li>
+                <!-- /ko-->
+            </ul>
+        </div>
+        <div class="row">
+            <label>Compétences Raciales</label>
+            <ul>
+                <!-- ko foreach : self.racials()-->
+                <li><!-- ko text : $data.name--> <!--/ko--></li>
+                <!-- /ko-->
+            </ul>
+        </div>
+        <div class="row">
+            <label>Compétences</label>
+            <ul>
+                <!-- ko foreach : self.selectedSkills()-->
+                <li><!-- ko text : $data.name--> <!--/ko--></li>
+                <!-- /ko-->
+            </ul>
+        </div>
+    </div>
+
+
+<div class="row col-md-12">
+    
+    <input id="Id" name="Id" style="display: none" data-bind="value : self.id" />
+    <input id="SelectedRace" name="SelectedRace" style="display: none" data-bind="value : self.selectedRace.id" />
+
+    <!--ko foreach : self.selectedSkills()-->
+    <input id="SelectedSkills" name="SelectedSkills" style="display: none" data-bind="value : $data.id" />
+    <!--/ko-->
+    <!-- ko foreach: self.unlockedCats()-->
+    <input id="SelectedCategories" name="SelectedCategories" style="display: none" data-bind="value : $data.catId" />
+    <!-- /ko-->
+
+    <input type="submit" value="Enregistrer" class="btn btn-primary" data-bind="attr : {disabled : !formIsValid() }, css : {disabled : !formIsValid()}" />
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+</div>
+}
+<!-- /ko -->

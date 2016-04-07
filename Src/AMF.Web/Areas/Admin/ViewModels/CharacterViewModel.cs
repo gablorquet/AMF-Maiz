@@ -16,13 +16,15 @@ namespace AMF.Web.Areas.Admin.ViewModels
 
         public List<int> SelectedSkills { get; set; }
 
+        public List<int> SelectedLegacySkills { get; set; } 
+
         public List<int> SelectedCategories { get; set; }
 
         public int NbPresences { get; set; }
 
         public CharacterViewModel()
         {
-            
+            SelectedLegacySkills = new List<int>();
         }
 
         public CharacterViewModel(Character character)
@@ -35,6 +37,7 @@ namespace AMF.Web.Areas.Admin.ViewModels
             SelectedCategories = character.Categories.Select(x => x.Id).ToList();
             CharacterId = character.Id;
             NbPresences = character.Presences.Count;
+            SelectedLegacySkills = character.Legacy.LegacySkills.Select(x => x.Id).ToList();
         }
 
     }

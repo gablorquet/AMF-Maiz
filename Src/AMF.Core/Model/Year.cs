@@ -8,13 +8,11 @@ namespace AMF.Core.Model
 
         public bool Current { get; set; }
 
-        public Scenario Scenario { get; set; }
-
         public virtual List<Event> Events { get; set; } 
 
         public virtual List<Race> PlayableRaces { get; set; }
-        public virtual List<Category> PlayableCategories { get; set; }
 
+        public virtual List<Category> PlayableCategories { get; set; }
 
         public Year()
         {

@@ -23,7 +23,6 @@ namespace AMF.Core.Model
 
         public virtual List<Event> Presences { get; set; }
 
-
         public int Experience { get; set; }
 
         public string Title { get; set; }

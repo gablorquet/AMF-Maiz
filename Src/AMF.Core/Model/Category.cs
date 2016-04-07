@@ -8,6 +8,14 @@ namespace AMF.Core.Model
         
         public virtual List<Skill> Skills { get; set; }
 
-        public bool IsMastery { get; set; }
+        public virtual Category Mastery { get; set; }
+
+        public virtual List<LegacyTree> Legacies { get; set; }
+
+        public Category()
+        {
+            Skills = new List<Skill>();
+            Legacies = new List<LegacyTree>();
+        }
     }
 }

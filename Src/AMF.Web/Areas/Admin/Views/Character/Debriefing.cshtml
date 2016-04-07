@@ -1,0 +1,67 @@
+﻿@using AMF.Core.Extensions
+@model AMF.Web.Areas.Admin.ViewModels.DebriefingViewModel
+
+@{
+    ViewBag.Title = "Debriefing";
+}
+
+<h2>Le personnage débute avec :</h2>
+
+<div class="col-md-9">
+
+    <div class="row">
+        <div class="col-md-4">
+            <label>Or</label>
+        </div>
+        <div class="col-md-4">
+            @Model.Gold
+        </div>
+    </div>
+
+    @if (Model.Ressources.Any())
+    {
+    <div class="row">
+        <div class="col-md-4">
+            <label>Ressources</label>
+        </div>
+        <div class="col-md-4">
+            <ul>
+                @foreach (var ressource in Model.Ressources)
+                {
+                <li>@ressource.AsDisplayable()</li>
+                }
+            </ul>
+
+        </div>
+    </div>
+    }
+
+    @if (Model.Minors != 0)
+    {
+    <div class="row">
+        <div class="col-md-4">
+            <label>Bâtons mineurs</label>
+        </div>
+        <div class="col-md-4">
+            @Model.Minors
+        </div>
+    </div>
+    }
+
+    @if (Model.Majors != 0)
+    {
+    <div class="row">
+        <div class="col-md-4">
+            <label>Bâtons majeurs</label>
+        </div>
+        <div class="col-md-4">
+            @Model.Majors
+        </div>
+    </div>
+    }
+
+
+
+    @Html.ActionLink("Créer un autre personnage", "Create", "Character")
+
+</div>
