@@ -22,8 +22,9 @@ namespace AMF.Web.Areas.Admin.Controllers
         // GET: Events
         public ActionResult Index()
         {
-            var year = _session.Set<Year>()
-                .Where(x => x.Current);
+            var year = _session
+                .Set<Year>()
+                .First(x => x.Current);
 
             var events = _session.Set<Year>()
                 .Where(x => x.Current)
@@ -33,7 +34,7 @@ namespace AMF.Web.Areas.Admin.Controllers
             RequireJsOptions.Add("model", events.Select(x => new
             {
                 eventId = x.Id,
-                yearId = x.Year.Id,
+                yearId = year.Id,
                 date = x.Date,
                 closed = x.ClosedDate,
                 eventNumber = x.EventNumber,

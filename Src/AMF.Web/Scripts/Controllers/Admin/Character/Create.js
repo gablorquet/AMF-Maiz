@@ -53,6 +53,31 @@
 
                     self.selectedRacials = ko.observableArray();
 
+                    self.legacySkills = ko.observableArray();
+                    self.legacyAvail = function (legacySkill) {
+
+                        var catUnlockCond = !!Lazy(self.skills.unlockedCats()).find(function (unlocked) {
+                            return unlocked.catId === legacySkill.catId;
+                        });
+
+                        if (!catUnlockCond)
+                            return false;
+
+                        var hasBonusSkills = Lazy(self.selectedRace().skills)
+                            .find(function (r) {
+                                return Lazy(r.bonus).some(function (b) {
+                                    return b.Bonus === 8;
+                                });
+                            });
+                        if (!hasBonusSkills)
+                            return false;
+
+                        if (legacySkill.prerequisites.length !== 0)
+                            return false;
+
+                        return true;
+                    };
+
                     self.skills = new function () {
                         var skills = {};
                         skills.categories = data.cats;
@@ -65,6 +90,8 @@
                             }).toArray();
 
                             self.selectedRace.notifySubscribers();
+
+                            self.legacySkills.notifySubscribers();
 
                             skills.selectedPassives(passives);
                         });
@@ -115,24 +142,6 @@
                         };
 
                         return skills;
-                    }
-
-                    self.legacySkills = ko.observableArray();
-                    self.legacyAvail = function(legacySkill) {
-
-                        var hasBonusSkills = Lazy(self.selectedRace().skills)
-                            .find(function(r) {
-                                return Lazy(r.bonus).some(function(b) {
-                                    return b.Bonus === 8;
-                                });
-                            });
-                        if (!hasBonusSkills)
-                            return false;
-
-                        if (!!legacySkill.prerequisite)
-                            return false;
-
-                        return true;
                     }
 
                     self.errors = ko.observableArray();

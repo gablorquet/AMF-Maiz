@@ -38,6 +38,10 @@
                        data-bind="attr: {href : '#' + $data.name }, text : $data.name"></a>
                 </li>
                 <!-- /ko -->
+                <li role="presentation">
+                    <a role="tab" data-toggle="tab"
+                       data-bind="attr: {href : '#' + 'Legacy' }, text : 'Héritage'"></a>
+                </li>
             </ul>
 
             <!-- Tab panes -->
@@ -54,6 +58,17 @@
                     <!--/ko-->
                 </div>
                 <!-- /ko -->
+                <div role="tabpanel" class="tab-pane" data-bind="attr : {id : 'Legacy' }">
+
+                    <!-- ko foreach : { data : self.legaciesAvail, as: 'tree'} -->
+                    <div data-bind="css : 'col-md-' + (12 / self.legaciesAvail.length)">
+                        <!-- ko foreach : { data : tree.skills, as: 'legacy' }-->
+                        <input type="checkbox" data-bind="value : legacy, checked: self.legacies, enable : self.isLegacyAvail(legacy)" />
+                        <!--ko text : legacy.name--><!--/ko--><br />
+                        <!--/ko-->
+                    </div>
+                    <!--/ko-->
+                </div>
             </div>
 
         </div>
@@ -93,6 +108,14 @@
             <label>Compétences</label>
             <ul>
                 <!-- ko foreach : self.selectedSkills()-->
+                <li><!-- ko text : $data.name--> <!--/ko--></li>
+                <!-- /ko-->
+            </ul>
+        </div>
+        <div class="row">
+            <label>Compétences d'Héritage</label>
+            <ul>
+                <!-- ko foreach : self.legacies()-->
                 <li><!-- ko text : $data.name--> <!--/ko--></li>
                 <!-- /ko-->
             </ul>

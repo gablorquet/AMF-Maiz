@@ -31,8 +31,8 @@ namespace AMF.Core.Storage
                     x.MapLeftKey("Skill_Id");
                     x.MapRightKey("Prereq_Id");
                     x.ToTable("Skill_Prereq");
-                });            
-            
+                });
+
             modelBuilder.Entity<LegacySkill>()
                 .HasMany(x => x.Prerequisites)
                 .WithMany()
@@ -44,7 +44,42 @@ namespace AMF.Core.Storage
                 });
 
             modelBuilder.Entity<Character>()
+                .HasMany(x => x.Categories)
+                .WithMany()
+                .Map(x =>
+                {
+                    x.MapLeftKey("Character_Id");
+                    x.MapRightKey("Category_Id");
+                    x.ToTable("Category_Character");
+                });
+
+            modelBuilder.Entity<Legacy>()
+                .HasMany(x => x.LegacyAvailable)
+                .WithMany()
+                .Map(x =>
+                {
+                    x.MapLeftKey("Legacy_Id");
+                    x.MapRightKey("LegacyTree_Id");
+                    x.ToTable("Legacy_Legacy_Tree");
+                });
+
+            modelBuilder.Entity<Legacy>()
+                .HasMany(x => x.LegacySkills)
+                .WithMany()
+                .Map(x =>
+                {
+                    x.MapLeftKey("Legacy_Id");
+                    x.MapRightKey("LegacySkill_Id");
+                    x.ToTable("Legacy_Legacy_Skill");
+                });
+
+
+            modelBuilder.Entity<Character>()
                 .HasOptional(x => x.Legacy);
+
+            modelBuilder.Entity<Year>()
+                .HasMany(x => x.Events);
+
         }
     }
 }

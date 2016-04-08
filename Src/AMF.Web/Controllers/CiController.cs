@@ -35,11 +35,9 @@ namespace AMF.Web.Controllers
                 FirstName = "Gab",
                 LastName = "Lorquet",
                 Username = "GabLork",
-                Password = "asdf".ToSHA1()
+                Password = "asdf".ToSHA1(),
             };
-
             _session.Add(animateur);
-            _session.Commit();
 
             var joueur = new Player
             {
@@ -61,6 +59,8 @@ namespace AMF.Web.Controllers
 
             BuildRaces(_session.Set<Category>().ToList());
 
+            BuildEvents();
+
             var sc = new Scenario
             {
                 Name = "Guerre Mazérienne",
@@ -71,7 +71,8 @@ namespace AMF.Web.Controllers
                         Name = "2016",
                         Current = true,
                         PlayableCategories = _session.Set<Category>().ToList(),
-                        PlayableRaces = _session.Set<Race>().ToList()
+                        PlayableRaces = _session.Set<Race>().ToList(),
+                        Events = _session.Set<Event>().ToList()
                     }
                 }
             };
@@ -79,29 +80,30 @@ namespace AMF.Web.Controllers
             _session.Add(sc);
             _session.Commit();
 
-            var events = new List<Event>();
+            return _session.Set<Event>().Count().ToString();
+        }
+
+        private void BuildEvents()
+        {
             var currentDate = new DateTime(2016, 05, 06);
             var endDate = new DateTime(2016, 09, 09);
             var index = 0;
             while (currentDate < endDate)
             {
-                events.Add(new Event
+                var ev = new Event
                 {
                     Date = currentDate,
                     EventNumber = index,
-                    NextEvent = index == 0
-                });
+                    NextEvent = index == 0,
+                    WasCanceled = false,
+                };
+
+                _session.Add(ev);
+                _session.Commit();
 
                 currentDate = currentDate.AddDays(7);
                 index++;
             }
-
-            var yr = _session.Set<Year>().First();
-            yr.Events = events;
-
-            _session.Commit();
-
-            return "Done";
         }
 
         private void BuildRaces(List<Category> cats)
@@ -350,32 +352,39 @@ namespace AMF.Web.Controllers
                     {
                         new LegacySkill
                         {
-                            Name = "Test 1"
+                            Name = "Test 1",
+                            Cost = 5
                         },
                         new LegacySkill
                         {
-                            Name = "Test 2"
+                            Name = "Test 2",
+                            Cost = 7
                         },
                         new LegacySkill
                         {
-                            Name = "Test 3"
+                            Name = "Test 3",
+                            Cost = 10
                         }
                     }
-                },    new LegacyTree
+                },    
+                new LegacyTree
                 {
                     Skills = new List<LegacySkill>
                     {
                         new LegacySkill
                         {
-                            Name = "Test 4"
+                            Name = "Test 4",
+                            Cost = 5
                         },
                         new LegacySkill
                         {
-                            Name = "Test 5"
+                            Name = "Test 5",
+                            Cost = 7
                         },
                         new LegacySkill
                         {
-                            Name = "Test 6"
+                            Name = "Test 6",
+                            Cost = 10
                         }
                     }
                 }
@@ -383,7 +392,7 @@ namespace AMF.Web.Controllers
 
             legacy.First().Skills.ElementAt(1).Prerequisites = new List<LegacySkill> { legacy.First().Skills.ElementAt(0) };
             legacy.First().Skills.ElementAt(2).Prerequisites = new List<LegacySkill> { legacy.First().Skills.ElementAt(1) };
-            
+
             legacy.Last().Skills.ElementAt(1).Prerequisites = new List<LegacySkill> { legacy.Last().Skills.ElementAt(0) };
             legacy.Last().Skills.ElementAt(2).Prerequisites = new List<LegacySkill> { legacy.Last().Skills.ElementAt(1) };
 
@@ -512,7 +521,7 @@ namespace AMF.Web.Controllers
             };
 
             arcane.Skills = arcaneskills;
-            
+
             _session.Add(arcane);
             _session.Commit();
 

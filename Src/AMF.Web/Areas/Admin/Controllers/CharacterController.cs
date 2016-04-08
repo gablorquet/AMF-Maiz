@@ -69,13 +69,16 @@ namespace AMF.Web.Areas.Admin.Controllers
             if (!ModelState.IsValid)
                 return View(data);
 
-            var currentEvent = _session.Set<Event>()
-                .First(x => x.NextEvent);
+            var year = _session.Set<Year>().First(x => x.Current);
 
             var player = _session.SingleById<Player>(data.PlayerId);
 
             var skills = _session.Set<Skill>()
                 .Where(x => data.SelectedSkills.Contains(x.Id))
+                .ToList();
+
+            var legacySkills = _session.Set<LegacySkill>()
+                .Where(x => data.SelectedLegacySkills.Contains(x.Id))
                 .ToList();
 
             var race = _session.SingleById<Race>(data.SelectedRace);
@@ -84,6 +87,22 @@ namespace AMF.Web.Areas.Admin.Controllers
                 .Where(x => data.SelectedCategories.Contains(x.Id))
                 .ToList();
 
+            var legacyTrees = new List<LegacyTree>();
+            if (legacySkills.Any())
+            {
+                legacyTrees = _session.Set<LegacyTree>()
+                    .Where(x => x.Skills
+                        .Any(y => data.SelectedLegacySkills.Contains(y.Id)))
+                    .ToList();
+            }
+            else
+            {
+                legacyTrees = categories.SelectMany(x => x.Legacies).ToList();
+            }
+
+            var currentEvent = year.Events.First(x => x.NextEvent);
+            _session.Attach(currentEvent);
+
             var character = new Character
             {
                 Player = player,
@@ -91,10 +110,15 @@ namespace AMF.Web.Areas.Admin.Controllers
                 Race = race,
                 Categories = categories,
                 Skills = skills,
-                Year = currentEvent.Year,
+                Legacy = new Legacy
+                {
+                    LegacySkills = legacySkills,
+                    LegacyAvailable = legacyTrees
+                },
+                Year = year,
                 Presences = new List<Event> { currentEvent },
                 Influence = 1 + (race.Skills.SelectMany(x => x.Bonus).Select(w => w.Bonus).Count(x => x == Bonus.ExtraInfluence) * 3),
-                Experience = 1 + (race.Skills.SelectMany(x => x.Bonus).Select(w => w.Bonus).Count(x => x == Bonus.ExtraXP)*5) - (data.SelectedLegacySkills.Count * 5)
+                Experience = 1 + (race.Skills.SelectMany(x => x.Bonus).Select(w => w.Bonus).Count(x => x == Bonus.ExtraXP) * 5)
             };
 
             _session.Add(character);
@@ -118,7 +142,7 @@ namespace AMF.Web.Areas.Admin.Controllers
                 race = character.Race.Id,
                 player = character.Player.Id,
                 legacies = character.Legacy != null ? character.Legacy.LegacySkills.Select(x => x.Id) : null,
-                legaciesAvai = character.Legacy != null ?character.Legacy.LegacyAvailable.Select(x => x.Id) : null,
+                legaciesAvai = character.Legacy != null ? character.Legacy.LegacyAvailable.Select(x => x.Id) : null,
                 title = character.Title
             });
 
@@ -150,14 +174,17 @@ namespace AMF.Web.Areas.Admin.Controllers
         {
             var currentEvent = _session.Set<Event>().First(x => x.NextEvent);
 
+            var currentYear = _session.Set<Year>().First(x => x.Current);
+
             var list = Enum.GetValues(typeof(Language)).Cast<Language>().ToList();
 
-            var cats = currentEvent.Year.PlayableCategories
+            var cats = currentYear.PlayableCategories.Where(x => x.Mastery != null)
                 .Select(x => new
                 {
                     catId = x.Id,
                     name = x.Name,
-                    mastery = new {
+                    mastery = new
+                    {
                         id = x.Mastery.Id,
                         name = x.Mastery.Name,
                         isMastery = x.Id,
@@ -171,7 +198,7 @@ namespace AMF.Web.Areas.Admin.Controllers
                             isLegacy = y.IsLegacy,
                             armorRestricted = y.ArmorRestricted,
                             prereq = y.Prerequisites.Select(z => z.Id).ToList(),
-                            categoryId = y.Category.Id
+                            categoryId = y.Id
                         }).ToList(),
                     },
                     skills = x.Skills.Where(z => !z.IsPassive && !z.IsLegacy && !z.IsRacial).Select(y => new
@@ -184,7 +211,7 @@ namespace AMF.Web.Areas.Admin.Controllers
                         isLegacy = y.IsLegacy,
                         armorRestricted = y.ArmorRestricted,
                         prereq = y.Prerequisites.Select(z => z.Id).ToList(),
-                        categoryId = y.Category.Id
+                        categoryId = x.Id
                     }).ToList(),
                     passives = x.Skills.Where(z => z.IsPassive).Select(y => new
                     {
@@ -195,23 +222,23 @@ namespace AMF.Web.Areas.Admin.Controllers
                         isPassive = true,
                         armorRestricted = y.ArmorRestricted,
                         prereq = y.Prerequisites.Select(z => z.Id).ToList(),
-                        categoryId = y.Category.Id
+                        categoryId = x.Id
                     }).ToList(),
                     legacies = x.Legacies.Select(y => new
                     {
                         id = y.Id,
-                        skills = y.Skills.Select(z => new 
+                        skills = y.Skills.Select(z => new
                         {
                             id = z.Id,
                             prerequisites = z.Prerequisites.Select(w => w.Id).ToList(),
                             name = z.Name,
                             cost = z.Cost,
-                            description = z.Description
-
-                        }).ToList()
+                            description = z.Description,
+                            catId = x.Id
+                        }).ToList(),
                     }).ToList()
                 }).ToList();
-            var races = currentEvent.Year.PlayableRaces.Select(x => new
+            var races = currentYear.PlayableRaces.Select(x => new
             {
                 id = x.Id,
                 name = x.Name,
@@ -234,13 +261,27 @@ namespace AMF.Web.Areas.Admin.Controllers
                 id = x
             }).ToList();
 
+            var legacies = _session.Set<LegacyTree>().Select(x => new
+            {
+                id = x.Id,
+                skills = x.Skills.Select(z => new
+                {
+                    id = z.Id,
+                    prerequisites = z.Prerequisites.Select(w => w.Id).ToList(),
+                    name = z.Name,
+                    cost = z.Cost,
+                    description = z.Description
+                }).ToList(),
+            }).ToList();
+
             return Json(new
             {
                 cats = cats,
                 races = races,
                 maxNbSkills = maxNbSkills,
                 maxNbCats = 1,
-                languagesAvailable = languagesAvailable
+                languagesAvailable = languagesAvailable,
+                legacies = legacies
             }, JsonRequestBehavior.AllowGet);
         }
     }

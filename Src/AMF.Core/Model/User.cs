@@ -12,6 +12,9 @@ namespace AMF.Core.Model
         public string Username { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
+
+        public DateTime? DateOfBirth { get; set; }
+    
     }
 
     public class Animateur : User
@@ -21,9 +24,7 @@ namespace AMF.Core.Model
 
     public class Player : User
     {
-        public DateTime? DateOfBirth { get; set; }
         public List<Character> Characters { get; set; }
-
 
         public void UpdateFrom(Player data)
         {

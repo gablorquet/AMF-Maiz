@@ -118,6 +118,38 @@
     <Compile Include="Migrations\201604071616445_Init.Designer.cs">
       <DependentUpon>201604071616445_Init.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201604071914409_CharacterErrors.cs" />
+    <Compile Include="Migrations\201604071914409_CharacterErrors.Designer.cs">
+      <DependentUpon>201604071914409_CharacterErrors.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201604071919336_CharacterErrors2.cs" />
+    <Compile Include="Migrations\201604071919336_CharacterErrors2.Designer.cs">
+      <DependentUpon>201604071919336_CharacterErrors2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201604071928580_UserFix.cs" />
+    <Compile Include="Migrations\201604071928580_UserFix.Designer.cs">
+      <DependentUpon>201604071928580_UserFix.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201604081443032_EventFix.cs" />
+    <Compile Include="Migrations\201604081443032_EventFix.Designer.cs">
+      <DependentUpon>201604081443032_EventFix.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201604081444464_CharFix.cs" />
+    <Compile Include="Migrations\201604081444464_CharFix.Designer.cs">
+      <DependentUpon>201604081444464_CharFix.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201604081500528_EventFix2.cs" />
+    <Compile Include="Migrations\201604081500528_EventFix2.Designer.cs">
+      <DependentUpon>201604081500528_EventFix2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201604081647557_UserFix2.cs" />
+    <Compile Include="Migrations\201604081647557_UserFix2.Designer.cs">
+      <DependentUpon>201604081647557_UserFix2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201604081657452_LegacyFix.cs" />
+    <Compile Include="Migrations\201604081657452_LegacyFix.Designer.cs">
+      <DependentUpon>201604081657452_LegacyFix.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\Category.cs" />
     <Compile Include="Model\Character.cs" />
@@ -141,6 +173,30 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201604071616445_Init.resx">
       <DependentUpon>201604071616445_Init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604071914409_CharacterErrors.resx">
+      <DependentUpon>201604071914409_CharacterErrors.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604071919336_CharacterErrors2.resx">
+      <DependentUpon>201604071919336_CharacterErrors2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604071928580_UserFix.resx">
+      <DependentUpon>201604071928580_UserFix.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604081443032_EventFix.resx">
+      <DependentUpon>201604081443032_EventFix.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604081444464_CharFix.resx">
+      <DependentUpon>201604081444464_CharFix.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604081500528_EventFix2.resx">
+      <DependentUpon>201604081500528_EventFix2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604081647557_UserFix2.resx">
+      <DependentUpon>201604081647557_UserFix2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604081657452_LegacyFix.resx">
+      <DependentUpon>201604081657452_LegacyFix.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

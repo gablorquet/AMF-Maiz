@@ -66,7 +66,7 @@ namespace AMF.Core.Authentication
                 Type = type,
                 DisplayName = user.Username
             });
-            
+
             FormsAuthentication.SetAuthCookie(cookieContent, true);
         }
     }

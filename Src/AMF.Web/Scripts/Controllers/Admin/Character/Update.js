@@ -26,12 +26,13 @@
                     });
                     self.lockedSkills = model.skills;
                     self.lockedCats = model.categories;
+                    self.lockedLegacies = model.legacies;
 
                     //Data
                     self.categories = data.cats;
                     self.skills = Lazy(data.cats).pluck('skills').flatten().toArray();
                     self.passives = Lazy(data.cats).pluck('passives').flatten().toArray();
-                    
+                    self.xp = model.xp;
 
                     //Selection left 
                     self.maxNbSkills = ko.pureComputed(function () {
@@ -65,29 +66,36 @@
                         self.selectedPassives(allPassives);
                     });
 
-
-                    var leg = Lazy(self.categories).map(function(l) {
-                        return Lazy(l.legacies).pluck('skills').toArray();
-                    }).flatten().toArray();
-
-                    self.legacySkills = ko.observableArray(Lazy(leg).where(
-                        function(l) {
-                            return model.legacies.contains(l.id);
+                    self.legaciesAvail = resp.legacies;
+                    var legaciesSkills = Lazy(resp.legacies).pluck('skills').flatten().toArray();
+                    self.legacies = ko.observableArray(Lazy(legaciesSkills)
+                        .where(function (leg) {
+                            return Lazy(self.lockedLegacies).contains(leg.id);
                         }).toArray());
+                   
 
-                    self.legacyAvail = function (legacySkill) {
-                        if (model.xp < legacySkill.cost)
+
+                    self.isLegacyAvail = function (legacySkill) {
+                        //Is locked
+                        if(Lazy(self.lockedLegacies).contains(legacySkill.id))
                             return false;
 
-                        if (Lazy(self.legacySkills()).none(function(l) {
-                            return l === legacySkill.prerequisite.Id;
-                        })) {
+                        //Has enough XP
+                        if (self.xp < (self.currentXPCost()) + legacySkill.cost)
                             return false;
-                        }
+
+                        //Has Prereq
 
                         return true;
                     }
 
+                    self.currentXPCost = function() {
+                        var newLeg = Lazy(self.legacies).where(function(leg) {
+                            return !Lazy(self.lockedLegacies).contains(leg.id);
+                        });
+
+                        return Lazy(newLeg).sum('cost');
+                    }
 
                     self.selectedPassives = ko.observableArray(Lazy(self.passives).where(function (pass) {
                         return Lazy(model.passives).contains(pass.id);
@@ -147,11 +155,11 @@
                             return true;
 
                         if (cat.isMastery && Lazy(skills.unlockedCats())
-                            .every(function (c) { return c.id !== cat.mastery;})) {
+                            .every(function (c) { return c.id !== cat.mastery; })) {
                             return false;
                         }
 
-                        return skills.nbCatChoiceLeft() > 0;
+                        return self.maxNbCats() > 0;
                     }
 
                     self.errors = ko.observableArray();

@@ -2,52 +2,52 @@
 @model PlayerViewModel
 
 
-<div class="row">
+<div class="row form-group">
     @Html.ValidationSummary()
 </div>
 
-<div class="row">
+<div class="row form-group">
     <div class="col-md-4">
         @Html.LabelFor(x => x.Username, "Nom d'usager")
     </div>
     <div class="col-md-4">
-        @Html.EditorFor(x => x.Username)
+        @Html.TextBoxFor(x => x.Username, new {@class = "form-control"})
     </div>
 </div>
 
-<div class="row">
+<div class="row form-group">
     <div class="col-md-4">
         @Html.LabelFor(x => x.FirstName, "Prénom")
     </div>
     <div class="col-md-4">
-        @Html.EditorFor(x => x.FirstName)
+        @Html.TextBoxFor(x => x.FirstName, new {@class = "form-control"})
     </div>
 </div>
 
-<div class="row">
+<div class="row form-group">
     <div class="col-md-4">
         @Html.LabelFor(x => x.LastName, "Nom de famille")
     </div>
     <div class="col-md-4">
-        @Html.EditorFor(x => x.LastName)
+        @Html.TextBoxFor(x => x.LastName, new {@class = "form-control"})
     </div>
 </div>
 
-<div class="row">
+<div class="row form-group">
     <div class="col-md-4">
         @Html.LabelFor(x => x.Email, "Courriel")
     </div>
     <div class="col-md-4">
-        @Html.EditorFor(x => x.Email)
+        @Html.TextBoxFor(x => x.Email, new {@class = "form-control"})
     </div>
 </div>
 
-<div class="row">
+<div class="row form-group">
     <div class="col-md-4">
         @Html.LabelFor(x => x.DateOfBirth, "Date de Naissance")
     </div>
     <div class="col-md-4">
-        @Html.EditorFor(x => x.DateOfBirth)
+        @Html.TextBoxFor(x => x.DateOfBirth, new {@class = "form-control"})
     </div>
 </div>
 

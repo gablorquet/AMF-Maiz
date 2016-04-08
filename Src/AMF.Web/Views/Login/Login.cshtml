@@ -2,30 +2,31 @@
 
 @{
     ViewBag.Title = "Index";
+    Layout = "../Shared/_Layout.cshtml";
 }
 
 <h2>Index</h2>
 
 @using (Html.BeginForm("Login", "Login", FormMethod.Post))
 {
-    <div class="row">
-        <div class="col-md-4">
-            @Html.LabelFor(x => x.Username, "Nom d'usager")
-        </div>
-        <div class="col-md-4">
-            @Html.EditorFor(x => x.Username)
-        </div>
+<div class="row form-group">
+    <div class="col-md-4">
+        @Html.LabelFor(x => x.Username, "Nom d'usager")
     </div>
-
-    <div class="row">
-        <div class="col-md-4">
-            @Html.LabelFor(x => x.Password, "Mot de passe")
-        </div>
-        <div class="col-md-4">
-            @Html.EditorFor(x => x.Password)
-        </div>
+    <div class="col-md-4">
+        @Html.TextBoxFor(x => x.Username, new { @class = "form-control"})
     </div>
+</div>
 
-    <input class="btn btn-primary" type="submit" value="Connection"/>
+<div class="row form-group">
+    <div class="col-md-4">
+        @Html.LabelFor(x => x.Password, "Mot de passe")
+    </div>
+    <div class="col-md-4">
+        @Html.PasswordFor(x => x.Password, new { @class = "form-control"})
+    </div>
+</div>
+
+<input class="btn btn-primary" type="submit" value="Connection" />
 }
 
