@@ -69,10 +69,14 @@
                                     return b.Bonus === 8;
                                 });
                             });
+
                         if (!hasBonusSkills)
                             return false;
 
                         if (legacySkill.prerequisites.length !== 0)
+                            return false;
+
+                        if (self.legacySkills().length === 1)
                             return false;
 
                         return true;

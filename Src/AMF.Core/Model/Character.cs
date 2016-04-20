@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using AMF.Core.Enums;
 
@@ -31,6 +30,7 @@ namespace AMF.Core.Model
 
         public virtual List<Throphy> Throphies { get; set; }
 
+        public virtual Institution Institution { get; set; }
 
         public int Influence { get; set; }
         public Ressource? PresetRessource { get; set; }

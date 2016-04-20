@@ -70,12 +70,24 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.0.0-beta2\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Http, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.0.0-beta2\lib\net45\System.Web.Http.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.0.0-beta2\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
@@ -157,10 +169,13 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\DashboardController.cs" />
     <Compile Include="Areas\Admin\Controllers\CharacterController.cs" />
+    <Compile Include="Areas\Admin\Controllers\InstitutionControllercs.cs" />
     <Compile Include="Areas\Admin\Controllers\YearController.cs" />
     <Compile Include="Areas\Admin\ViewModels\CharacterViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\DebriefingViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\EventViewModel.cs" />
+    <Compile Include="Areas\Admin\ViewModels\InstitutionViewModel.cs" />
+    <Compile Include="Areas\Admin\ViewModels\StatsViewModel.cs" />
     <Compile Include="Areas\Admin\ViewModels\YearViewModel.cs" />
     <Compile Include="Controllers\CiController.cs" />
     <Compile Include="Areas\Admin\Controllers\EventController.cs" />
@@ -196,6 +211,8 @@
     <Content Include="Scripts\Controllers\Admin\Character\Create.js" />
     <Content Include="Scripts\Controllers\Admin\Character\Index.js" />
     <Content Include="Scripts\Controllers\Admin\Character\Update.js" />
+    <Content Include="Scripts\Controllers\Admin\Event\Debriefing.js" />
+    <Content Include="Scripts\Controllers\Admin\Event\Stats.js" />
     <Content Include="Scripts\Controllers\Admin\Event\CloseEvent.js" />
     <Content Include="Scripts\Controllers\Admin\Event\Index.js" />
     <Content Include="Scripts\Controllers\Admin\Player\Index.js" />
@@ -209,12 +226,15 @@
     <Content Include="Styles\Bootstrap\bootstrap-theme.min.css" />
     <Content Include="Styles\Bootstrap\bootstrap.css" />
     <Content Include="Styles\Bootstrap\bootstrap.min.css" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="Views\Web.config" />
   </ItemGroup>
@@ -260,6 +280,9 @@
     <Content Include="Areas\Admin\Views\Event\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Event\EventStats.cshtml" />
     <Content Include="Areas\Admin\Views\Character\Update.cshtml" />
+    <Content Include="Areas\Admin\Views\Event\Debriefing.cshtml" />
+    <Content Include="Areas\Admin\Views\Institution\Index.cshtml" />
+    <None Include="Properties\PublishProfiles\AMF.pubxml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Ressources\Strings.resx">

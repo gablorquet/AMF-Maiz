@@ -1,0 +1,30 @@
+﻿@using AMF.Web.Ressources
+
+
+@{
+    ViewBag.Title = "Debriefing";
+}
+
+<h2>Débriefing</h2>
+
+@using(Html.BeginForm("PlayerDebrief", "Event")){
+
+<div class="col-md-6">
+    <div class="col-md-6">
+        <label>Joueur</label>
+    </div>
+    <div class="col-md-6">
+        <select id="characterId" name="characterId" class="form-control" data-bind="options : attendees, optionsText : 'displayName', optionsValue : 'id'"></select>
+    </div>
+
+    <div class="col-md-6">
+        <label>Nombre de throphées</label>
+    </div>
+    <div class="col-md-6">
+        <input id="nbThrophies" name="nbThrophies" type="number" class="form-control" data-bind="textInput : nbThrophies "/>
+    </div>
+
+    <input class="btn btn-primary" type="submit" value="Enregistrer"/>
+</div>
+
+}

@@ -43,5 +43,25 @@ namespace AMF.Core.Extensions
                     return string.Empty;
             }
         }
+        public static string AsDisplayable(this Reward reward)
+        {
+            switch (reward)
+            {
+                case (Reward.Gold):
+                    return "Pièces (5)";
+                case (Reward.Contact):
+                    return "Contact";
+                case (Reward.Labor):
+                    return "Main d'oeuvre";
+                case (Reward.Material):
+                    return "Matériel";
+                case (Reward.Research):
+                    return "Recherche";
+                case (Reward.Influence):
+                    return "Influence (1 à 5 personnes)";
+                default:
+                    return string.Empty;
+            }
+        }
     }
 }

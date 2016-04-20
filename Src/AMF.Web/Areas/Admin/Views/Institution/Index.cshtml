@@ -1,0 +1,33 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Institutions</h2>
+
+<!-- ko with : Institutions-->
+
+@Html.ActionLink("Créer une insitution", "Create", "Institution")
+
+<table>
+    <thead>
+    <tr>
+        <th>Nom</th>
+        <th>Leader</th>
+        <th>Nb de Membres</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- ko foreach : { data : institution, as : 'insti' }-->
+    <tr>
+        <td><!-- ko text : insti.name--><!--/ko--></td>
+        <td><!-- ko text : insti.leader--><!--/ko--></td>
+        <td><!-- ko text : insti.members--><!--/ko--></td>
+        <td>
+            <a data-bind="attr : { href : '/Institution/' + insti.id }">Modifier</a>
+        </td>
+    </tr>
+    <!-- /ko -->
+    </tbody>
+</table>
+<!-- /ko-->

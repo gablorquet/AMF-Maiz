@@ -150,11 +150,16 @@
     <Compile Include="Migrations\201604081657452_LegacyFix.Designer.cs">
       <DependentUpon>201604081657452_LegacyFix.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201604202242397_Institutions.cs" />
+    <Compile Include="Migrations\201604202242397_Institutions.Designer.cs">
+      <DependentUpon>201604202242397_Institutions.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\Category.cs" />
     <Compile Include="Model\Character.cs" />
     <Compile Include="Model\Entity.cs" />
     <Compile Include="Model\Event.cs" />
+    <Compile Include="Model\Institution.cs" />
     <Compile Include="Model\Legacy.cs" />
     <Compile Include="Model\Race.cs" />
     <Compile Include="Model\Skill.cs" />
@@ -197,6 +202,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201604081657452_LegacyFix.resx">
       <DependentUpon>201604081657452_LegacyFix.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604202242397_Institutions.resx">
+      <DependentUpon>201604202242397_Institutions.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

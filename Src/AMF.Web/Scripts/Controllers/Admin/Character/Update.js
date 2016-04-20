@@ -85,6 +85,11 @@
                             return false;
 
                         //Has Prereq
+                        if (Lazy(legacySkill.prerequisites).none(function(prereq) {
+                            return Lazy(self.lockedLegacies).contains(prereq.id);
+                        })) {
+                            return false;
+                        }
 
                         return true;
                     }

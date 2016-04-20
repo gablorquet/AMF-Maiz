@@ -9,6 +9,9 @@ namespace AMF.Core.Storage
         public DbSet<Animateur> Animateurs { get; set; }
         public DbSet<Player> Players { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Institution> Institutions { get; set; }
+        public DbSet<Nature> Natures { get; set; }
+        public DbSet<Milestone> Milestones { get; set; }
         public DbSet<Skill> Skills { get; set; }
         public DbSet<Spell> Spells { get; set; }
         public DbSet<Year> Years { get; set; }
